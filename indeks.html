@@ -1,0 +1,1988 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WebGIS Deformasi Jembatan Suramadu</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+  <style>
+    :root{
+      --navy:#14324a;
+      --blue:#21537e;
+      --sky:#edf5fb;
+      --cream:#f5f0df;
+      --bg:#f8fafc;
+      --line:#d8e1ea;
+      --text:#243646;
+      --muted:#687786;
+      --success:#198754;
+      --warn:#d9902f;
+      --danger:#c0392b;
+      --card:#ffffff;
+      --shadow:0 10px 28px rgba(0,0,0,.08);
+      --radius:22px;
+    }
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:"Segoe UI", Arial, sans-serif;
+      scroll-behavior:smooth;
+    }
+
+    body{
+      color:var(--text);
+      background:linear-gradient(135deg, #f4ecd8 0%, #edf5fb 100%);
+      overflow-x:hidden;
+    }
+
+    a{ color:inherit; }
+
+    nav{
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      z-index:999;
+      background:rgba(255,255,255,.88);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid rgba(20,50,74,.08);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:14px 30px;
+      box-shadow:0 6px 18px rgba(0,0,0,.05);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .brand-icon{
+      width:52px;
+      height:52px;
+      border-radius:14px;
+      background:linear-gradient(135deg, #15334f, #2f6b90);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      box-shadow:0 8px 18px rgba(20,50,74,.18);
+      flex-shrink:0;
+    }
+
+    .brand-text h1{
+      font-size:26px;
+      color:var(--navy);
+      line-height:1;
+      margin-bottom:3px;
+    }
+
+    .brand-text p{
+      font-size:11px;
+      letter-spacing:1.5px;
+      color:var(--blue);
+      text-transform:uppercase;
+      font-weight:700;
+    }
+
+    nav ul{
+      list-style:none;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    nav ul li a{
+      text-decoration:none;
+      font-weight:700;
+      color:var(--navy);
+      padding:10px 14px;
+      border-radius:999px;
+      transition:.2s;
+      font-size:14px;
+    }
+
+    nav ul li a:hover{
+      background:#eef5fb;
+      color:var(--blue);
+    }
+
+    section{
+      padding:110px 20px 60px;
+      display:flex;
+      justify-content:center;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:1220px;
+    }
+
+    .hero{
+      background:linear-gradient(135deg, rgba(20,50,74,.97), rgba(33,83,126,.93));
+      color:#fff;
+      border-radius:30px;
+      padding:42px;
+      box-shadow:0 24px 50px rgba(20,50,74,.20);
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:26px;
+      align-items:center;
+    }
+
+    .eyebrow{
+      display:inline-block;
+      padding:8px 14px;
+      border-radius:999px;
+      background:rgba(255,255,255,.14);
+      font-size:12px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.8px;
+      margin-bottom:14px;
+    }
+
+    .hero h2{
+      font-size:54px;
+      line-height:1.1;
+      margin-bottom:16px;
+    }
+
+    .hero p{
+      font-size:16px;
+      line-height:1.9;
+      color:rgba(255,255,255,.92);
+    }
+
+    .hero-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:24px;
+    }
+
+    .btn{
+      display:inline-block;
+      padding:12px 20px;
+      border-radius:999px;
+      text-decoration:none;
+      font-weight:800;
+      transition:.2s;
+      border:2px solid transparent;
+    }
+
+    .btn-primary{
+      background:#fff;
+      color:var(--navy);
+    }
+
+    .btn-primary:hover{
+      background:#edf5fb;
+      transform:translateY(-2px);
+    }
+
+    .btn-outline{
+      background:transparent;
+      border-color:rgba(255,255,255,.7);
+      color:#fff;
+    }
+
+    .btn-outline:hover{
+      background:rgba(255,255,255,.10);
+      transform:translateY(-2px);
+    }
+
+    .hero-side{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+
+    .hero-mini{
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:20px;
+      padding:18px;
+    }
+
+    .hero-mini h3{
+      font-size:28px;
+      margin-bottom:6px;
+    }
+
+    .hero-mini p{
+      font-size:13px;
+      line-height:1.7;
+      color:rgba(255,255,255,.88);
+    }
+
+    .section-card{
+      background:rgba(255,255,255,.86);
+      border:1px solid rgba(20,50,74,.08);
+      border-radius:28px;
+      box-shadow:var(--shadow);
+      padding:34px;
+    }
+
+    .section-header{
+      margin-bottom:22px;
+    }
+
+    .section-label{
+      display:inline-block;
+      padding:8px 14px;
+      background:#edf5fb;
+      color:var(--blue);
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      text-transform:uppercase;
+      margin-bottom:12px;
+    }
+
+    .section-header h2{
+      font-size:38px;
+      color:var(--navy);
+      margin-bottom:12px;
+    }
+
+    .section-header p{
+      font-size:16px;
+      line-height:1.9;
+      color:#42505d;
+    }
+
+    .feature-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+      gap:18px;
+    }
+
+    .feature{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:22px;
+      box-shadow:0 8px 18px rgba(0,0,0,.04);
+    }
+
+    .feature .icon{
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      background:#edf5fb;
+      color:var(--blue);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:900;
+      margin-bottom:12px;
+      font-size:20px;
+    }
+
+    .feature h3{
+      font-size:27px;
+      margin-bottom:10px;
+      color:var(--navy);
+    }
+
+    .feature p{
+      line-height:1.8;
+      color:#4f5d69;
+    }
+
+    .timeline{
+      display:grid;
+      gap:16px;
+    }
+
+    .timeline-item{
+      display:grid;
+      grid-template-columns:120px 1fr;
+      gap:18px;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:20px;
+    }
+
+    .timeline-year{
+      background:#edf5fb;
+      color:var(--blue);
+      border-radius:16px;
+      padding:14px;
+      text-align:center;
+      font-weight:900;
+      font-size:18px;
+      height:max-content;
+    }
+
+    .timeline-content h3{
+      font-size:22px;
+      margin-bottom:8px;
+      color:var(--navy);
+    }
+
+    .timeline-content p{
+      line-height:1.8;
+      color:#4b5965;
+    }
+
+    .map-box{
+      margin-top:22px;
+      border-radius:22px;
+      overflow:hidden;
+      border:2px solid rgba(20,50,74,.08);
+      box-shadow:0 10px 24px rgba(0,0,0,.08);
+    }
+
+    #map{
+      width:100%;
+      height:430px;
+    }
+
+    .note{
+      margin-top:16px;
+      padding:14px 16px;
+      background:#eef6fb;
+      border:1px solid #d7e6f3;
+      border-radius:16px;
+      line-height:1.8;
+      color:var(--blue);
+      font-size:14px;
+    }
+
+    .download-block{
+      margin-top:26px;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:22px;
+      box-shadow:0 8px 18px rgba(0,0,0,.04);
+    }
+
+    .download-block h3{
+      font-size:24px;
+      color:var(--navy);
+      margin-bottom:10px;
+    }
+
+    .download-block p{
+      line-height:1.8;
+      color:#4f5d69;
+      margin-bottom:18px;
+    }
+
+    .day-group{
+      margin-top:16px;
+    }
+
+    .day-group h4{
+      margin-bottom:10px;
+      color:var(--blue);
+      font-size:18px;
+    }
+
+    .download-list{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+      gap:10px;
+    }
+
+    .download-list a{
+      display:block;
+      background:#eef6fb;
+      color:var(--navy);
+      text-decoration:none;
+      padding:12px 14px;
+      border-radius:14px;
+      font-weight:700;
+      border:1px solid #d7e6f3;
+      transition:.2s;
+    }
+
+    .download-list a:hover{
+      background:var(--blue);
+      color:#fff;
+      transform:translateY(-2px);
+    }
+
+    .toolbar{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-bottom:18px;
+    }
+
+    .toolbar button{
+      border:none;
+      padding:10px 16px;
+      border-radius:999px;
+      background:#dceaf5;
+      color:var(--blue);
+      font-weight:800;
+      cursor:pointer;
+      transition:.2s;
+    }
+
+    .toolbar button.active,
+    .toolbar button:hover{
+      background:var(--blue);
+      color:#fff;
+    }
+
+    .status{
+      margin-bottom:18px;
+      padding:14px 16px;
+      border-radius:16px;
+      background:#eef6fb;
+      border:1px solid #d7e6f3;
+      color:var(--blue);
+      font-size:14px;
+      line-height:1.8;
+    }
+
+    .kpi-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+      gap:16px;
+      margin-bottom:22px;
+    }
+
+    .kpi{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:20px;
+      box-shadow:0 8px 18px rgba(0,0,0,.04);
+    }
+
+    .kpi small{
+      display:block;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.6px;
+      font-size:12px;
+      font-weight:700;
+      margin-bottom:8px;
+    }
+
+    .kpi strong{
+      display:block;
+      font-size:26px;
+      color:var(--navy);
+      margin-bottom:8px;
+    }
+
+    .kpi p{
+      color:#4d5a66;
+      font-size:14px;
+      line-height:1.7;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      padding:8px 12px;
+      border-radius:999px;
+      font-weight:800;
+      font-size:13px;
+    }
+
+    .stable{ background:rgba(25,135,84,.12); color:var(--success); }
+    .watch{ background:rgba(217,144,47,.14); color:var(--warn); }
+    .alert{ background:rgba(192,57,43,.12); color:var(--danger); }
+
+    .panel{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:22px;
+      box-shadow:0 8px 18px rgba(0,0,0,.04);
+      margin-bottom:22px;
+    }
+
+    .panel h3{
+      font-size:24px;
+      color:var(--navy);
+      margin-bottom:8px;
+    }
+
+    .panel .sub{
+      font-size:14px;
+      color:var(--muted);
+      margin-bottom:16px;
+    }
+
+    .chart-box{
+      background:#f5f7fa;
+      border:1px solid #d9e0e7;
+      border-radius:18px;
+      padding:10px;
+    }
+
+    .chart-shell{
+      position:relative;
+      width:100%;
+      height:280px;
+    }
+
+    .chart-shell.small{
+      height:240px;
+    }
+
+    .chart-shell.tiny{
+      height:220px;
+    }
+
+    .chart-shell canvas{
+      position:absolute !important;
+      inset:0;
+      width:100% !important;
+      height:100% !important;
+    }
+
+    .two-col{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
+
+    .analysis-box ul{
+      padding-left:18px;
+      line-height:1.9;
+      color:#3f4c58;
+    }
+
+    .analysis-box li{ margin-bottom:10px; }
+
+    .table-card{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:22px;
+      box-shadow:0 8px 18px rgba(0,0,0,.04);
+      margin-bottom:22px;
+    }
+
+    .table-card h3{
+      font-size:24px;
+      color:var(--navy);
+      margin-bottom:12px;
+    }
+
+    .table-scroll{
+      width:100%;
+      overflow-x:auto;
+      overflow-y:hidden;
+      border-radius:16px;
+      border:1px solid #e2e8ef;
+      background:#fff;
+    }
+
+    table{
+      width:100%;
+      min-width:860px;
+      border-collapse:collapse;
+      background:#fff;
+    }
+
+    table.wide{
+      min-width:1050px;
+    }
+
+    thead{
+      background:linear-gradient(90deg, #235883 0%, #2b6c97 100%);
+      color:#fff;
+    }
+
+    th, td{
+      padding:14px 14px;
+      text-align:left;
+      font-size:13px;
+      white-space:nowrap;
+      border-bottom:1px solid #edf1f5;
+    }
+
+    tbody tr:nth-child(even){
+      background:#f8fbfd;
+    }
+
+    footer{
+      text-align:center;
+      padding:24px 20px 40px;
+      color:#5c6975;
+    }
+
+    @media (max-width: 980px){
+      .hero-grid,
+      .two-col{
+        grid-template-columns:1fr;
+      }
+
+      .hero h2{
+        font-size:42px;
+      }
+
+      .timeline-item{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width: 768px){
+      nav{
+        padding:14px 16px;
+        flex-direction:column;
+        gap:12px;
+      }
+
+      .section-card,
+      .hero{
+        padding:24px 18px;
+      }
+
+      .hero-side{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .section-header h2{
+        font-size:30px;
+      }
+
+      #map{
+        height:320px;
+      }
+
+      .chart-shell{
+        height:250px;
+      }
+
+      .chart-shell.small{
+        height:220px;
+      }
+
+      .chart-shell.tiny{
+        height:210px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="brand">
+      <div class="brand-icon">
+        <svg width="34" height="34" viewBox="0 0 64 64" fill="none">
+          <rect x="4" y="46" width="56" height="6" rx="3" fill="white"/>
+          <rect x="11" y="20" width="4" height="26" rx="2" fill="white"/>
+          <rect x="49" y="20" width="4" height="26" rx="2" fill="white"/>
+          <path d="M13 24C18 18 24 14 32 14C40 14 46 18 51 24" stroke="white" stroke-width="4" stroke-linecap="round"/>
+          <path d="M17 31C21 27 26 25 32 25C38 25 43 27 47 31" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <h1>Suramadu</h1>
+        <p>WebGIS Deformasi</p>
+      </div>
+    </div>
+
+    <ul>
+      <li><a href="#beranda">Beranda</a></li>
+      <li><a href="#deformasi">Deformasi</a></li>
+      <li><a href="#sejarah">Sejarah</a></li>
+      <li><a href="#peta">Peta & Data</a></li>
+      <li><a href="#analisis-bm">Analisis BM</a></li>
+      <li><a href="#traffic">Analisa Traffic</a></li>
+    </ul>
+  </nav>
+
+  <section id="beranda">
+    <div class="wrap">
+      <div class="hero">
+        <div class="hero-grid">
+          <div>
+            <span class="eyebrow">Halaman Utama</span>
+            <h2>WebGIS Deformasi Jembatan Suramadu</h2>
+            <p>
+              Website ini menampilkan titik benchmark pengamatan, informasi deformasi,
+              analisis per BM, hasil analisa traffic, serta akses unduh file CNB secara langsung
+              dalam satu tampilan web yang lebih rapi dan informatif.
+            </p>
+
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#analisis-bm">Lihat Analisis BM</a>
+              <a class="btn btn-outline" href="#peta">Lihat Peta & File CNB</a>
+            </div>
+          </div>
+
+          <div class="hero-side">
+            <div class="hero-mini">
+              <h3>4 BM</h3>
+              <p>BM1, BM2, BM3, dan BM4 sebagai titik pengamatan utama.</p>
+            </div>
+            <div class="hero-mini">
+              <h3>4 Hari</h3>
+              <p>Pengamatan harian untuk melihat tren deformasi dan kualitas hasil ukur.</p>
+            </div>
+            <div class="hero-mini">
+              <h3>GNSS</h3>
+              <p>Analisis RMS horizontal, vertikal, latitude, dan longitude terhadap referensi.</p>
+            </div>
+            <div class="hero-mini">
+              <h3>Traffic</h3>
+              <p>Analisa tambahan untuk melihat keterkaitan volume kendaraan dan hasil pengukuran.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="deformasi">
+    <div class="wrap">
+      <div class="section-card">
+        <div class="section-header">
+          <span class="section-label">Informasi Struktur</span>
+          <h2>Deskripsi Deformasi</h2>
+          <p>
+            Deformasi jembatan adalah perubahan posisi atau dimensi struktur akibat beban kendaraan,
+            suhu, angin, getaran, dan kondisi lingkungan. Pemantauan yang dilakukan secara berkala
+            membantu melihat kestabilan struktur serta pola perubahan posisi vertikal maupun horizontal.
+          </p>
+        </div>
+
+        <div class="feature-grid">
+          <div class="feature">
+            <div class="icon">B</div>
+            <h3>Beban Kendaraan</h3>
+            <p>Arus kendaraan yang berulang dapat memberi tekanan dinamis pada struktur dan memengaruhi pergerakan kecil pada jembatan.</p>
+          </div>
+          <div class="feature">
+            <div class="icon">S</div>
+            <h3>Suhu & Lingkungan</h3>
+            <p>Perubahan temperatur dan lingkungan dapat memicu pemuaian dan penyusutan pada elemen struktur.</p>
+          </div>
+          <div class="feature">
+            <div class="icon">V</div>
+            <h3>Analisis Vertikal</h3>
+            <p>Time series vertikal dipakai untuk membaca kecenderungan naik-turun posisi titik ukur dari waktu ke waktu.</p>
+          </div>
+          <div class="feature">
+            <div class="icon">H</div>
+            <h3>Analisis Horizontal</h3>
+            <p>Scatter plot horizontal menampilkan penyebaran ΔE dan ΔN untuk melihat kestabilan posisi pengamatan.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sejarah">
+    <div class="wrap">
+      <div class="section-card">
+        <div class="section-header">
+          <span class="section-label">Latar Belakang</span>
+          <h2>Sejarah Jembatan Suramadu</h2>
+          <p>
+            Jembatan Suramadu menghubungkan Surabaya dan Madura dan menjadi salah satu infrastruktur
+            penting bagi mobilitas masyarakat dan distribusi logistik. Karena perannya yang besar,
+            pemantauan kondisi geometrik dan deformasi menjadi hal penting dalam evaluasi struktur.
+          </p>
+        </div>
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-year">2003</div>
+            <div class="timeline-content">
+              <h3>Awal Pembangunan</h3>
+              <p>Proyek pembangunan dimulai sebagai jembatan strategis penghubung Pulau Jawa dan Madura.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-year">2009</div>
+            <div class="timeline-content">
+              <h3>Peresmian</h3>
+              <p>Jembatan Suramadu resmi beroperasi dan menjadi salah satu ikon infrastruktur penting di Indonesia.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-year">Kini</div>
+            <div class="timeline-content">
+              <h3>Monitoring Deformasi</h3>
+              <p>Pengamatan benchmark dan analisis kualitas hasil ukur dilakukan untuk membantu evaluasi kestabilan jembatan secara periodik.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="peta">
+    <div class="wrap">
+      <div class="section-card">
+        <div class="section-header">
+          <span class="section-label">Peta Pengamatan</span>
+          <h2>Peta Titik Benchmark & Akses File CNB</h2>
+          <p>
+            Bagian ini menampilkan lokasi titik benchmark pengamatan pada Jembatan Suramadu serta
+            menyediakan akses unduh file CNB secara langsung untuk setiap hari pengukuran.
+          </p>
+        </div>
+
+        <div class="map-box">
+          <div id="map"></div>
+        </div>
+
+        <div class="note">
+          Marker menunjukkan titik BM1, BM2, BM3, dan BM4. Basemap dapat diganti melalui kontrol layer peta.
+        </div>
+
+        <div class="download-block">
+          <h3>Unduh File Pengukuran CNB</h3>
+          <p>
+            File berikut dapat diakses langsung oleh pengguna website. Pastikan nama folder dan file
+            di komputer/server sama persis dengan link di bawah ini.
+          </p>
+
+          <div class="day-group">
+            <h4>Pengukuran Day 1</h4>
+            <div class="download-list">
+              <a href="./Data%20Ukur%20Suramadu/Pengukuran%20Day%201/20260125_125608.cnb" download>20260125_125608.cnb</a>
+              <a href="./Data%20Ukur%20Suramadu/Pengukuran%20Day%201/BM4.cnb" download>BM4.cnb</a>
+              <a href="./Data%20Ukur%20Suramadu/Pengukuran%20Day%201/20260125_125524_002.cnb" download>20260125_125524_002.cnb</a>
+              <a href="./Data%20Ukur%20Suramadu/Pengukuran%20Day%201/20260125_145913_004.cnb" download>20260125_145913_004.cnb</a>
+            </div>
+          </div>
+
+          <div class="day-group">
+            <h4>Pengukuran Day 2</h4>
+            <div class="download-list">
+              <a href="./Data%20Ukur%20Suramadu/Pengukuran%20Day%202/BM4Day2.cnb" download>BM4Day2.cnb</a>
+              <a href="./Data%20Ukur%20Suramadu/Pengukuran%20Day%202/BM2Day2.cnb" download>BM2Day2.cnb</a>
+              <a href="./Data%20Ukur%20Suramadu/Pengukuran%20Day%202/BM3day2.cnb" download>BM3day2.cnb</a>
+              <a href="./Data%20Ukur%20Suramadu/Pengukuran%20Day%202/BM1Day2.cnb" download>BM1Day2.cnb</a>
+            </div>
+          </div>
+
+          <div class="day-group">
+            <h4>Pengukuran Day 3</h4>
+            <div class="download-list">
+              <a href="./Data%20Ukur%20Suramadu/Pengukuran%20Day%203/BM4Day3.cnb" download>BM4Day3.cnb</a>
+              <a href="./Data%20Ukur%20Suramadu/Pengukuran%20Day%203/BM2Day3.cnb" download>BM2Day3.cnb</a>
+              <a href="./Data%20Ukur%20Suramadu/Pengukuran%20Day%203/BM3Day3.cnb" download>BM3Day3.cnb</a>
+              <a href="./Data%20Ukur%20Suramadu/Pengukuran%20Day%203/BM1Day3.cnb" download>BM1Day3.cnb</a>
+            </div>
+          </div>
+
+          <div class="day-group">
+            <h4>Pengukuran Day 4</h4>
+            <div class="download-list">
+              <a href="./Data%20Ukur%20Suramadu/Pengukuran%20Day%204/bm4day4.cnb" download>bm4day4.cnb</a>
+              <a href="./Data%20Ukur%20Suramadu/Pengukuran%20Day%204/bm3day4.cnb" download>bm3day4.cnb</a>
+              <a href="./Data%20Ukur%20Suramadu/Pengukuran%20Day%204/bm2day4.cnb" download>bm2day4.cnb</a>
+              <a href="./Data%20Ukur%20Suramadu/Pengukuran%20Day%204/bm1day4.cnb" download>bm1day4.cnb</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="analisis-bm">
+    <div class="wrap">
+      <div class="section-card">
+        <div class="section-header">
+          <span class="section-label">Analisis Benchmark</span>
+          <h2>Analisis Per BM</h2>
+          <p>
+            Hasil berikut dibaca dari file <strong>Hasil_Analisa_Perhitungan.xlsx</strong>. Pilih BM
+            untuk menampilkan ringkasan RMS error, time series vertikal, scatter plot horizontal,
+            dan interpretasi otomatis.
+          </p>
+        </div>
+
+        <div class="toolbar">
+          <button class="bm-btn active" data-bm="BM1">BM1</button>
+          <button class="bm-btn" data-bm="BM2">BM2</button>
+          <button class="bm-btn" data-bm="BM3">BM3</button>
+          <button class="bm-btn" data-bm="BM4">BM4</button>
+        </div>
+
+        <div id="bmStatus" class="status">Memuat data analisa BM...</div>
+
+        <div id="bmKpis" class="kpi-grid"></div>
+
+        <div class="panel">
+          <h3>Status Ringkas BM</h3>
+          <div id="bmSummaryBadge"></div>
+        </div>
+
+        <div class="panel">
+          <h3>Grafik RMS Error Terhadap Koordinat Trimble</h3>
+          <div class="sub" id="rmsSubTitle">BM1</div>
+          <div class="chart-box">
+            <div class="chart-shell">
+              <canvas id="rmsBarChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Grafik Time Series dan Scatter Plot</h3>
+          <div class="sub" id="dayChartSubTitle">BM1 - Day 1</div>
+
+          <div class="toolbar" style="margin-top:10px;">
+            <button class="day-btn active" data-day="1">Day 1</button>
+            <button class="day-btn" data-day="2">Day 2</button>
+            <button class="day-btn" data-day="3">Day 3</button>
+            <button class="day-btn" data-day="4">Day 4</button>
+          </div>
+
+          <div class="two-col">
+            <div class="chart-box">
+              <div class="chart-shell small">
+                <canvas id="tsChart"></canvas>
+              </div>
+            </div>
+            <div class="chart-box">
+              <div class="chart-shell small">
+                <canvas id="scatterChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel analysis-box">
+          <h3>Interpretasi Otomatis</h3>
+          <div id="bmAnalysisText"></div>
+        </div>
+
+        <div class="table-card">
+          <h3>Ringkasan RMS per Hari</h3>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Hari</th>
+                  <th>Jumlah Data</th>
+                  <th>ΔN RMS (m)</th>
+                  <th>ΔE RMS (m)</th>
+                  <th>ΔH RMS (m)</th>
+                  <th>Mean Height (m)</th>
+                  <th>Ref Trimble</th>
+                </tr>
+              </thead>
+              <tbody id="bmSummaryTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="traffic">
+    <div class="wrap">
+      <div class="section-card">
+        <div class="section-header">
+          <span class="section-label">Analisa Traffic</span>
+          <h2>Analisa Traffic dan Hubungannya dengan Hasil Pengukuran</h2>
+          <p>
+            Data pada bagian ini dibaca dari file <strong>Hasil_Analisa_Traffic.xlsx</strong>.
+            Website akan menampilkan komposisi kendaraan, perbandingan traffic dengan RMSE, korelasi-regresi,
+            serta statistik deskriptif secara lebih rapi.
+          </p>
+        </div>
+
+        <div id="trafficStatus" class="status">Memuat data traffic...</div>
+
+        <div id="trafficKpis" class="kpi-grid"></div>
+
+        <div class="panel">
+          <h3>Komposisi Kendaraan per Hari</h3>
+          <div class="sub">Mobil, truck, dan motor selama 1 jam pengamatan</div>
+          <div class="chart-box">
+            <div class="chart-shell">
+              <canvas id="trafficCompositionChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Total Kendaraan vs RMSE</h3>
+          <div class="sub">Perbandingan volume kendaraan dan kualitas pengamatan</div>
+          <div class="chart-box">
+            <div class="chart-shell">
+              <canvas id="trafficRmseChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Scatter Plot Regresi</h3>
+          <div class="toolbar">
+            <button class="traffic-btn active" data-param="Avg_RMSE_Horiz_m">RMSE Horizontal</button>
+            <button class="traffic-btn" data-param="Avg_RMSE_Vert_m">RMSE Vertikal</button>
+            <button class="traffic-btn" data-param="Avg_RMSE_Lat_m">RMSE Latitude</button>
+            <button class="traffic-btn" data-param="Avg_RMSE_Long_m">RMSE Longitude</button>
+          </div>
+          <div class="sub" id="trafficScatterTitle">Total_1Jam vs Avg_RMSE_Horiz_m</div>
+          <div class="chart-box">
+            <div class="chart-shell">
+              <canvas id="trafficScatterChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel analysis-box">
+          <h3>Interpretasi Traffic</h3>
+          <div id="trafficAnalysisText"></div>
+        </div>
+
+        <div class="table-card">
+          <h3>Data Per Hari</h3>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Hari</th>
+                  <th>Mobil</th>
+                  <th>Truck</th>
+                  <th>Motor</th>
+                  <th>Total</th>
+                  <th>RMSE Horiz</th>
+                  <th>RMSE Vert</th>
+                  <th>RMSE Lat</th>
+                  <th>RMSE Long</th>
+                </tr>
+              </thead>
+              <tbody id="trafficDailyTable"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <h3>Korelasi & Regresi</h3>
+          <div class="table-scroll">
+            <table class="wide">
+              <thead>
+                <tr>
+                  <th>Parameter</th>
+                  <th>r</th>
+                  <th>Arah</th>
+                  <th>Kekuatan</th>
+                  <th>Slope</th>
+                  <th>Intersep</th>
+                  <th>R²</th>
+                </tr>
+              </thead>
+              <tbody id="trafficRelationTable"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <h3>Statistik Deskriptif</h3>
+          <div class="table-scroll">
+            <table class="wide">
+              <thead>
+                <tr>
+                  <th>Parameter</th>
+                  <th>Mean</th>
+                  <th>SD Sampel</th>
+                  <th>Minimum</th>
+                  <th>Hari Minimum</th>
+                  <th>Maksimum</th>
+                  <th>Hari Maksimum</th>
+                  <th>CV (%)</th>
+                </tr>
+              </thead>
+              <tbody id="trafficDescTable"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2026 WebGIS Deformasi Jembatan Suramadu
+  </footer>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    const BM_FILE = "./Hasil_Analisa_Perhitungan.xlsx";
+    const TRAFFIC_FILE = "./Hasil_Analisa_Traffic.xlsx";
+
+    const colors = {
+      n: "#d95f02",
+      e: "#9aa0a6",
+      h: "#e0b100",
+      blue: "#1f77b4",
+      red: "#c0392b",
+      green: "#2e8b57",
+      purple: "#8e44ad",
+      orange: "#f39c12",
+      gray: "#5f6c7b",
+      motor: "#2e8b57",
+      mobil: "#2b6c97",
+      truck: "#d98f39"
+    };
+
+    const bmPoints = [
+      { name: "BM1", lat: -7.159993613, lon: 112.781484586 },
+      { name: "BM2", lat: -7.159701900, lon: 112.782325489 },
+      { name: "BM3", lat: -7.153342915, lon: 112.783537308 },
+      { name: "BM4", lat: -7.153586104, lon: 112.783827106 }
+    ];
+
+    const state = {
+      selectedBM: "BM1",
+      selectedDay: 1,
+      selectedTrafficParam: "Avg_RMSE_Horiz_m",
+      bmSummary: {},
+      bmRaw: {},
+      trafficData: [],
+      trafficRelations: [],
+      trafficDesc: []
+    };
+
+    let rmsBarChart, tsChart, scatterChart;
+    let trafficCompositionChart, trafficRmseChart, trafficScatterChart;
+
+    function setStatus(id, text, error = false) {
+      const el = document.getElementById(id);
+      el.textContent = text;
+      if (error) {
+        el.style.background = "#fdecec";
+        el.style.borderColor = "#f3c7c7";
+        el.style.color = "#b42318";
+      } else {
+        el.style.background = "#eef6fb";
+        el.style.borderColor = "#d7e6f3";
+        el.style.color = "#21537e";
+      }
+    }
+
+    function formatNum(v, d = 3) {
+      const n = Number(v);
+      return isFinite(n) ? n.toFixed(d) : "-";
+    }
+
+    function formatInt(v) {
+      const n = Number(v);
+      return isFinite(n) ? Math.round(n).toLocaleString("id-ID") : "-";
+    }
+
+    function mean(arr) {
+      return arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : 0;
+    }
+
+    function rms(arr) {
+      return arr.length ? Math.sqrt(arr.reduce((s,v)=>s+v*v,0)/arr.length) : 0;
+    }
+
+    function sampleStd(arr) {
+      if (arr.length < 2) return 0;
+      const m = mean(arr);
+      return Math.sqrt(arr.reduce((s,v)=>s+Math.pow(v-m,2),0)/(arr.length-1));
+    }
+
+    function correlation(x, y) {
+      if (x.length !== y.length || x.length < 2) return 0;
+      const mx = mean(x), my = mean(y);
+      let num = 0, dx = 0, dy = 0;
+      for (let i = 0; i < x.length; i++) {
+        num += (x[i]-mx)*(y[i]-my);
+        dx += Math.pow(x[i]-mx,2);
+        dy += Math.pow(y[i]-my,2);
+      }
+      const den = Math.sqrt(dx*dy);
+      return den ? num/den : 0;
+    }
+
+    function linearRegression(x, y) {
+      if (x.length !== y.length || x.length < 2) {
+        return { slope:0, intercept:0, r:0, r2:0 };
+      }
+      const mx = mean(x), my = mean(y);
+      let num = 0, den = 0;
+      for (let i = 0; i < x.length; i++) {
+        num += (x[i]-mx)*(y[i]-my);
+        den += Math.pow(x[i]-mx,2);
+      }
+      const slope = den ? num/den : 0;
+      const intercept = my - slope*mx;
+      const r = correlation(x, y);
+      return { slope, intercept, r, r2:r*r };
+    }
+
+    function strengthLabel(r) {
+      const ar = Math.abs(r);
+      if (ar < 0.3) return "Lemah";
+      if (ar < 0.6) return "Sedang";
+      return "Kuat";
+    }
+
+    function directionLabel(r) {
+      return r >= 0 ? "Positif" : "Negatif";
+    }
+
+    function getStatus(avgVert) {
+      if (avgVert <= 0.05) return { text: "Stabil", cls: "stable" };
+      if (avgVert <= 0.15) return { text: "Perlu Perhatian", cls: "watch" };
+      return { text: "Anomali Kecil", cls: "alert" };
+    }
+
+    function parseDateTime(dateVal, timeVal) {
+      let dateObj = null;
+
+      if (dateVal instanceof Date) {
+        dateObj = dateVal;
+      } else if (typeof dateVal === "number") {
+        const p = XLSX.SSF.parse_date_code(dateVal);
+        if (p) dateObj = new Date(p.y, p.m - 1, p.d);
+      } else if (typeof dateVal === "string") {
+        const d = new Date(dateVal);
+        if (!isNaN(d)) dateObj = d;
+      }
+
+      if (!dateObj) return null;
+
+      let h=0,m=0,s=0;
+
+      if (timeVal instanceof Date) {
+        h = timeVal.getHours();
+        m = timeVal.getMinutes();
+        s = timeVal.getSeconds();
+      } else if (typeof timeVal === "number") {
+        const total = Math.round(timeVal * 24 * 60 * 60);
+        h = Math.floor(total/3600);
+        m = Math.floor((total%3600)/60);
+        s = total%60;
+      } else if (typeof timeVal === "string") {
+        const sp = timeVal.split(":").map(Number);
+        h = sp[0] || 0;
+        m = sp[1] || 0;
+        s = sp[2] || 0;
+      }
+
+      return new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate(), h, m, s);
+    }
+
+    function toDeltaMeters(lat, lon, refLat, refLon) {
+      const dLat = lat - refLat;
+      const dLon = lon - refLon;
+      const meanLat = refLat * Math.PI / 180;
+      const dN = dLat * 111320;
+      const dE = dLon * 111320 * Math.cos(meanLat);
+      return { dN, dE };
+    }
+
+    function downsample(arr, maxPoints = 250) {
+      if (!arr || arr.length <= maxPoints) return arr || [];
+      const step = Math.ceil(arr.length / maxPoints);
+      const out = [];
+      for (let i = 0; i < arr.length; i += step) out.push(arr[i]);
+      if (out[out.length - 1] !== arr[arr.length - 1]) out.push(arr[arr.length - 1]);
+      return out;
+    }
+
+    async function loadBMData() {
+      try {
+        const res = await fetch(BM_FILE);
+        if (!res.ok) throw new Error("File Hasil_Analisa_Perhitungan.xlsx tidak ditemukan");
+        const buffer = await res.arrayBuffer();
+        const wb = XLSX.read(buffer, { type:"array", cellDates:true });
+
+        const summary = { BM1:[], BM2:[], BM3:[], BM4:[] };
+        const raw = { BM1:{}, BM2:{}, BM3:{}, BM4:{} };
+
+        wb.SheetNames.forEach(sheetName => {
+          if (!/^BM\d+Day\d+$/i.test(sheetName)) return;
+
+          const bmMatch = sheetName.match(/BM\d/i);
+          const dayMatch = sheetName.match(/Day(\d+)/i);
+          if (!bmMatch || !dayMatch) return;
+
+          const bm = bmMatch[0].toUpperCase();
+          const day = Number(dayMatch[1]);
+          const ws = wb.Sheets[sheetName];
+          const rows = XLSX.utils.sheet_to_json(ws, { header:1, raw:true });
+
+          const getCell = a => ws[a] ? ws[a].v : null;
+
+          const item = {
+            day,
+            jumlah: Number(getCell("I2")) || 0,
+            meanLat: Number(getCell("I3")) || 0,
+            meanLon: Number(getCell("I4")) || 0,
+            meanHeight: Number(getCell("I5")) || 0,
+            refTrimble: String(getCell("I12") || bm),
+            trimbleLat: Number(getCell("I13")) || 0,
+            trimbleLon: Number(getCell("I14")) || 0,
+            trimbleHeight: Number(getCell("I15")) || 0,
+            rmseLatTrimble: Number(getCell("I16")) || 0,
+            rmseLonTrimble: Number(getCell("I17")) || 0,
+            rmseHeightTrimble: Number(getCell("I18")) || 0
+          };
+
+          summary[bm].push(item);
+
+          const pts = [];
+          for (let i = 1; i < rows.length; i++) {
+            const r = rows[i];
+            if (!r) continue;
+
+            const tgl = r[0];
+            const jam = r[1];
+            const lat = Number(r[2]);
+            const lon = Number(r[3]);
+            const h = Number(r[4]);
+            if (!isFinite(lat) || !isFinite(lon) || !isFinite(h)) continue;
+
+            const ts = parseDateTime(tgl, jam);
+            if (!ts) continue;
+
+            const d = toDeltaMeters(lat, lon, item.trimbleLat, item.trimbleLon);
+
+            pts.push({
+              time: ts,
+              lat,
+              lon,
+              h,
+              dN: d.dN,
+              dE: d.dE,
+              dH: h - item.trimbleHeight
+            });
+          }
+
+          raw[bm][`Day${day}`] = pts;
+        });
+
+        Object.keys(summary).forEach(bm => summary[bm].sort((a,b) => a.day - b.day));
+
+        state.bmSummary = summary;
+        state.bmRaw = raw;
+        setStatus("bmStatus", "Data analisa BM berhasil dimuat.");
+        renderBM();
+      } catch (err) {
+        console.error(err);
+        setStatus("bmStatus", "Gagal memuat data BM: " + err.message, true);
+      }
+    }
+
+    async function loadTrafficData() {
+      try {
+        const res = await fetch(TRAFFIC_FILE);
+        if (!res.ok) throw new Error("File Hasil_Analisa_Traffic.xlsx tidak ditemukan");
+        const buffer = await res.arrayBuffer();
+        const wb = XLSX.read(buffer, { type:"array", cellDates:true });
+
+        const ws = wb.Sheets["Data_Per_Hari"] || wb.Sheets[wb.SheetNames[0]];
+        const rows = XLSX.utils.sheet_to_json(ws, { header:1, raw:true });
+
+        const daily = [];
+        for (let i = 1; i < rows.length; i++) {
+          const r = rows[i];
+          if (!r || !r[0]) continue;
+          const hari = String(r[0]);
+          if (!/day/i.test(hari)) continue;
+
+          daily.push({
+            Hari: hari,
+            Mobil_1Jam: Number(r[1]) || 0,
+            Truck_1Jam: Number(r[2]) || 0,
+            Motor_1Jam: Number(r[3]) || 0,
+            Total_1Jam: Number(r[4]) || 0,
+            Avg_RMSE_Horiz_m: Number(r[5]) || 0,
+            Avg_RMSE_Vert_m: Number(r[6]) || 0,
+            Avg_RMSE_Lat_m: Number(r[7]) || 0,
+            Avg_RMSE_Long_m: Number(r[8]) || 0
+          });
+        }
+
+        const params = [
+          { key:"Avg_RMSE_Horiz_m", label:"RMSE Horizontal" },
+          { key:"Avg_RMSE_Vert_m", label:"RMSE Vertikal" },
+          { key:"Avg_RMSE_Lat_m", label:"RMSE Latitude" },
+          { key:"Avg_RMSE_Long_m", label:"RMSE Longitude" }
+        ];
+
+        const x = daily.map(d => d.Total_1Jam);
+
+        const relations = params.map(p => {
+          const y = daily.map(d => d[p.key]);
+          const reg = linearRegression(x, y);
+          return {
+            parameter: p.label,
+            key: p.key,
+            r: reg.r,
+            arah: directionLabel(reg.r),
+            kekuatan: strengthLabel(reg.r),
+            slope: reg.slope,
+            intersep: reg.intercept,
+            r2: reg.r2
+          };
+        });
+
+        const desc = params.map(p => {
+          const values = daily.map(d => d[p.key]);
+          const minVal = Math.min(...values);
+          const maxVal = Math.max(...values);
+          const minObj = daily.find(d => d[p.key] === minVal);
+          const maxObj = daily.find(d => d[p.key] === maxVal);
+          const m = mean(values);
+          const sd = sampleStd(values);
+
+          return {
+            parameter: p.label,
+            mean: m,
+            sd: sd,
+            min: minVal,
+            minDay: minObj ? minObj.Hari : "-",
+            max: maxVal,
+            maxDay: maxObj ? maxObj.Hari : "-",
+            cv: m === 0 ? 0 : (sd / m) * 100
+          };
+        });
+
+        state.trafficData = daily;
+        state.trafficRelations = relations;
+        state.trafficDesc = desc;
+
+        setStatus("trafficStatus", "Data traffic berhasil dimuat.");
+        renderTraffic();
+      } catch (err) {
+        console.error(err);
+        setStatus("trafficStatus", "Gagal memuat data traffic: " + err.message, true);
+      }
+    }
+
+    function renderBM() {
+      const bm = state.selectedBM;
+      const summaries = state.bmSummary[bm] || [];
+      const raw = state.bmRaw[bm] || {};
+      if (!summaries.length) return;
+
+      document.getElementById("rmsSubTitle").textContent = bm;
+      document.getElementById("dayChartSubTitle").textContent = `${bm} - Day ${state.selectedDay}`;
+
+      const totalData = summaries.reduce((s,v)=>s+v.jumlah,0);
+      const avgVertTrimble = mean(summaries.map(v => v.rmseHeightTrimble));
+      const bestDay = summaries.reduce((a,b)=>a.rmseHeightTrimble < b.rmseHeightTrimble ? a : b);
+      const worstDay = summaries.reduce((a,b)=>a.rmseHeightTrimble > b.rmseHeightTrimble ? a : b);
+      const ref = summaries[0].refTrimble || bm;
+      const status = getStatus(avgVertTrimble);
+
+      document.getElementById("bmKpis").innerHTML = `
+        <div class="kpi">
+          <small>Total Data</small>
+          <strong>${formatInt(totalData)}</strong>
+          <p>Total titik pengamatan dari seluruh hari pada ${bm}.</p>
+        </div>
+        <div class="kpi">
+          <small>Referensi Trimble</small>
+          <strong>${ref}</strong>
+          <p>Titik referensi yang dipakai sebagai pembanding.</p>
+        </div>
+        <div class="kpi">
+          <small>Rata-rata RMS Vertikal</small>
+          <strong>${formatNum(avgVertTrimble,3)} m</strong>
+          <p>Rata-rata nilai RMS ΔH terhadap referensi Trimble.</p>
+        </div>
+        <div class="kpi">
+          <small>Hari Terbaik</small>
+          <strong>Day ${bestDay.day}</strong>
+          <p>Hari dengan RMS ΔH paling kecil: ${formatNum(bestDay.rmseHeightTrimble,3)} m.</p>
+        </div>
+      `;
+
+      document.getElementById("bmSummaryBadge").innerHTML =
+        `<span class="badge ${status.cls}">${status.text}</span>`;
+
+      renderBMBarChart(raw);
+      renderBMSingleDayCharts(raw);
+      renderBMTextAnalysis(bm, summaries, raw);
+      renderBMSummaryTable(summaries, raw);
+    }
+
+    function renderBMBarChart(raw) {
+      const ctx = document.getElementById("rmsBarChart").getContext("2d");
+      if (rmsBarChart) rmsBarChart.destroy();
+
+      const labels = ["Day 1", "Day 2", "Day 3", "Day 4"];
+      const dN = [], dE = [], dH = [];
+
+      for (let i = 1; i <= 4; i++) {
+        const pts = raw[`Day${i}`] || [];
+        dN.push(rms(pts.map(v => v.dN)));
+        dE.push(rms(pts.map(v => v.dE)));
+        dH.push(rms(pts.map(v => v.dH)));
+      }
+
+      rmsBarChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels,
+          datasets: [
+            { label:"ΔN", data:dN, backgroundColor:colors.n },
+            { label:"ΔE", data:dE, backgroundColor:colors.e },
+            { label:"ΔH", data:dH, backgroundColor:colors.h }
+          ]
+        },
+        options: {
+          responsive:true,
+          maintainAspectRatio:false,
+          animation:false,
+          plugins:{ legend:{ position:"bottom" } },
+          scales:{
+            y:{ beginAtZero:true, title:{ display:true, text:"Meter" } },
+            x:{ grid:{ display:false } }
+          }
+        }
+      });
+    }
+
+    function renderBMSingleDayCharts(raw) {
+      const pts = downsample(raw[`Day${state.selectedDay}`] || [], 250);
+
+      const ctx1 = document.getElementById("tsChart").getContext("2d");
+      const ctx2 = document.getElementById("scatterChart").getContext("2d");
+      if (tsChart) tsChart.destroy();
+      if (scatterChart) scatterChart.destroy();
+
+      tsChart = new Chart(ctx1, {
+        type:"line",
+        data:{
+          datasets:[
+            {
+              label:"ΔU",
+              data:pts.map((p,i)=>({x:i,y:p.dH})),
+              borderColor:colors.blue,
+              backgroundColor:colors.blue,
+              pointRadius:0,
+              borderWidth:1.6,
+              tension:.05
+            },
+            {
+              label:"0",
+              data:pts.length ? [{x:0,y:0},{x:pts.length-1,y:0}] : [],
+              borderColor:"#cc0000",
+              pointRadius:0,
+              borderWidth:1
+            }
+          ]
+        },
+        options:{
+          responsive:true,
+          maintainAspectRatio:false,
+          animation:false,
+          plugins:{ legend:{ display:false } },
+          scales:{
+            x:{ type:"linear", title:{ display:true, text:"Epoch" } },
+            y:{ title:{ display:true, text:"ΔU (m)" } }
+          }
+        }
+      });
+
+      scatterChart = new Chart(ctx2, {
+        type:"scatter",
+        data:{
+          datasets:[
+            {
+              label:"Sebaran",
+              data:pts.map(p=>({x:p.dE,y:p.dN})),
+              backgroundColor:colors.blue,
+              pointRadius:1.6
+            },
+            {
+              label:"Origin",
+              data:[{x:0,y:0}],
+              backgroundColor:colors.orange,
+              pointRadius:4,
+              pointStyle:"crossRot"
+            }
+          ]
+        },
+        options:{
+          responsive:true,
+          maintainAspectRatio:false,
+          animation:false,
+          plugins:{ legend:{ display:false } },
+          scales:{
+            x:{
+              min:-1, max:1,
+              title:{ display:true, text:"ΔE (m)" }
+            },
+            y:{
+              min:-1, max:1,
+              title:{ display:true, text:"ΔN (m)" }
+            }
+          }
+        }
+      });
+    }
+
+    function renderBMTextAnalysis(bm, summaries, raw) {
+      const dayStats = summaries.map(s => {
+        const pts = raw[`Day${s.day}`] || [];
+        return {
+          day:s.day,
+          rmsN:rms(pts.map(v=>v.dN)),
+          rmsE:rms(pts.map(v=>v.dE)),
+          rmsH:rms(pts.map(v=>v.dH)),
+          maxAbsDH: pts.length ? Math.max(...pts.map(v=>Math.abs(v.dH))) : 0
+        };
+      });
+
+      const avgVert = mean(summaries.map(v => v.rmseHeightTrimble));
+      const status = getStatus(avgVert);
+      const bestV = dayStats.reduce((a,b)=>a.rmsH < b.rmsH ? a : b);
+      const worstV = dayStats.reduce((a,b)=>a.rmsH > b.rmsH ? a : b);
+      const bestH = dayStats.reduce((a,b)=>(a.rmsN+a.rmsE)<(b.rmsN+b.rmsE)?a:b);
+      const worstH = dayStats.reduce((a,b)=>(a.rmsN+a.rmsE)>(b.rmsN+b.rmsE)?a:b);
+
+      document.getElementById("bmAnalysisText").innerHTML = `
+        <ul>
+          <li><strong>${bm}</strong> dikategorikan sebagai <strong>${status.text}</strong> berdasarkan rata-rata RMS vertikal terhadap referensi Trimble sebesar <strong>${formatNum(avgVert,3)} m</strong>.</li>
+          <li>Hari dengan performa vertikal terbaik adalah <strong>Day ${bestV.day}</strong> dengan RMS ΔH <strong>${formatNum(bestV.rmsH,3)} m</strong>, sedangkan yang paling besar terjadi pada <strong>Day ${worstV.day}</strong> dengan RMS ΔH <strong>${formatNum(worstV.rmsH,3)} m</strong>.</li>
+          <li>Dari sisi horizontal, penyebaran posisi paling kecil terlihat pada <strong>Day ${bestH.day}</strong>, sedangkan penyebaran terbesar terlihat pada <strong>Day ${worstH.day}</strong>.</li>
+          <li>Nilai deviasi vertikal maksimum absolut pada ${bm} mencapai sekitar <strong>${formatNum(Math.max(...dayStats.map(v => v.maxAbsDH)),3)} m</strong>.</li>
+          <li>Secara umum, hasil ${bm} dapat dibaca dari kombinasi RMS error, pola time series, dan sebaran horizontal untuk menilai kestabilan benchmark.</li>
+        </ul>
+      `;
+    }
+
+    function renderBMSummaryTable(summaries, raw) {
+      document.getElementById("bmSummaryTable").innerHTML = summaries.map(s => {
+        const pts = raw[`Day${s.day}`] || [];
+        return `
+          <tr>
+            <td>Day ${s.day}</td>
+            <td>${formatInt(s.jumlah)}</td>
+            <td>${formatNum(rms(pts.map(v=>v.dN)),6)}</td>
+            <td>${formatNum(rms(pts.map(v=>v.dE)),6)}</td>
+            <td>${formatNum(rms(pts.map(v=>v.dH)),3)}</td>
+            <td>${formatNum(s.meanHeight,3)}</td>
+            <td>${s.refTrimble}</td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function renderTraffic() {
+      const data = state.trafficData;
+      if (!data.length) return;
+
+      const totalAll = data.reduce((s,v)=>s+v.Total_1Jam,0);
+      const avgTotal = totalAll / data.length;
+      const peak = data.reduce((a,b)=>a.Total_1Jam > b.Total_1Jam ? a : b);
+      const bestHoriz = data.reduce((a,b)=>a.Avg_RMSE_Horiz_m < b.Avg_RMSE_Horiz_m ? a : b);
+
+      document.getElementById("trafficKpis").innerHTML = `
+        <div class="kpi">
+          <small>Total Kendaraan</small>
+          <strong>${formatInt(totalAll)}</strong>
+          <p>Total kendaraan dari seluruh hari pengamatan.</p>
+        </div>
+        <div class="kpi">
+          <small>Rata-rata per Hari</small>
+          <strong>${formatInt(avgTotal)}</strong>
+          <p>Rata-rata total kendaraan per hari.</p>
+        </div>
+        <div class="kpi">
+          <small>Traffic Tertinggi</small>
+          <strong>${peak.Hari}</strong>
+          <p>Total kendaraan tertinggi: ${formatInt(peak.Total_1Jam)} kendaraan.</p>
+        </div>
+        <div class="kpi">
+          <small>RMSE Horizontal Terbaik</small>
+          <strong>${bestHoriz.Hari}</strong>
+          <p>Nilai RMS horizontal minimum: ${formatNum(bestHoriz.Avg_RMSE_Horiz_m,3)} m.</p>
+        </div>
+      `;
+
+      renderTrafficComposition();
+      renderTrafficRmse();
+      renderTrafficScatter();
+      renderTrafficText();
+      renderTrafficTables();
+    }
+
+    function renderTrafficComposition() {
+      const ctx = document.getElementById("trafficCompositionChart").getContext("2d");
+      if (trafficCompositionChart) trafficCompositionChart.destroy();
+
+      const labels = state.trafficData.map(v => v.Hari);
+
+      trafficCompositionChart = new Chart(ctx, {
+        type:"bar",
+        data:{
+          labels,
+          datasets:[
+            { label:"Mobil", data:state.trafficData.map(v=>v.Mobil_1Jam), backgroundColor:colors.mobil },
+            { label:"Truck", data:state.trafficData.map(v=>v.Truck_1Jam), backgroundColor:colors.truck },
+            { label:"Motor", data:state.trafficData.map(v=>v.Motor_1Jam), backgroundColor:colors.motor }
+          ]
+        },
+        options:{
+          responsive:true,
+          maintainAspectRatio:false,
+          animation:false,
+          plugins:{ legend:{ position:"bottom" } },
+          scales:{
+            x:{ stacked:true },
+            y:{ stacked:true, title:{ display:true, text:"Jumlah Kendaraan" } }
+          }
+        }
+      });
+    }
+
+    function renderTrafficRmse() {
+      const ctx = document.getElementById("trafficRmseChart").getContext("2d");
+      if (trafficRmseChart) trafficRmseChart.destroy();
+
+      const labels = state.trafficData.map(v => v.Hari);
+
+      trafficRmseChart = new Chart(ctx, {
+        type:"line",
+        data:{
+          labels,
+          datasets:[
+            {
+              label:"Total Kendaraan",
+              data:state.trafficData.map(v=>v.Total_1Jam),
+              borderColor:colors.green,
+              backgroundColor:colors.green,
+              yAxisID:"y",
+              tension:.2
+            },
+            {
+              label:"RMSE Horizontal",
+              data:state.trafficData.map(v=>v.Avg_RMSE_Horiz_m),
+              borderColor:colors.blue,
+              backgroundColor:colors.blue,
+              yAxisID:"y1",
+              tension:.2
+            },
+            {
+              label:"RMSE Vertikal",
+              data:state.trafficData.map(v=>v.Avg_RMSE_Vert_m),
+              borderColor:colors.red,
+              backgroundColor:colors.red,
+              yAxisID:"y1",
+              tension:.2
+            }
+          ]
+        },
+        options:{
+          responsive:true,
+          maintainAspectRatio:false,
+          animation:false,
+          plugins:{ legend:{ position:"bottom" } },
+          scales:{
+            y:{ position:"left", title:{ display:true, text:"Total Kendaraan" } },
+            y1:{ position:"right", grid:{ drawOnChartArea:false }, title:{ display:true, text:"RMSE (m)" } }
+          }
+        }
+      });
+    }
+
+    function renderTrafficScatter() {
+      const ctx = document.getElementById("trafficScatterChart").getContext("2d");
+      if (trafficScatterChart) trafficScatterChart.destroy();
+
+      const key = state.selectedTrafficParam;
+      const relation = state.trafficRelations.find(v => v.key === key);
+      const points = state.trafficData.map(v => ({ x:v.Total_1Jam, y:v[key] }));
+      const xs = state.trafficData.map(v => v.Total_1Jam);
+      const minX = Math.min(...xs);
+      const maxX = Math.max(...xs);
+
+      const regLine = relation ? [
+        { x:minX, y:relation.slope*minX + relation.intersep },
+        { x:maxX, y:relation.slope*maxX + relation.intersep }
+      ] : [];
+
+      document.getElementById("trafficScatterTitle").textContent = `Total_1Jam vs ${key}`;
+
+      trafficScatterChart = new Chart(ctx, {
+        type:"scatter",
+        data:{
+          datasets:[
+            {
+              label:"Data",
+              data:points,
+              backgroundColor:colors.blue,
+              pointRadius:4
+            },
+            {
+              label:"Regresi",
+              data:regLine,
+              type:"line",
+              borderColor:colors.red,
+              backgroundColor:colors.red,
+              pointRadius:0,
+              borderWidth:2
+            }
+          ]
+        },
+        options:{
+          responsive:true,
+          maintainAspectRatio:false,
+          animation:false,
+          plugins:{ legend:{ position:"bottom" } },
+          scales:{
+            x:{ title:{ display:true, text:"Total Kendaraan 1 Jam" } },
+            y:{ title:{ display:true, text:key } }
+          }
+        }
+      });
+    }
+
+    function renderTrafficText() {
+      const rels = state.trafficRelations;
+      const data = state.trafficData;
+      if (!rels.length || !data.length) return;
+
+      const strongest = rels.reduce((a,b)=>Math.abs(a.r) > Math.abs(b.r) ? a : b);
+      const weakest = rels.reduce((a,b)=>Math.abs(a.r) < Math.abs(b.r) ? a : b);
+      const peak = data.reduce((a,b)=>a.Total_1Jam > b.Total_1Jam ? a : b);
+      const low = data.reduce((a,b)=>a.Total_1Jam < b.Total_1Jam ? a : b);
+
+      document.getElementById("trafficAnalysisText").innerHTML = `
+        <ul>
+          <li>Traffic tertinggi terjadi pada <strong>${peak.Hari}</strong> dengan total <strong>${formatInt(peak.Total_1Jam)}</strong> kendaraan, sedangkan traffic terendah terjadi pada <strong>${low.Hari}</strong> dengan total <strong>${formatInt(low.Total_1Jam)}</strong> kendaraan.</li>
+          <li>Korelasi terkuat terdapat pada parameter <strong>${strongest.parameter}</strong> dengan nilai <strong>r = ${formatNum(strongest.r,3)}</strong>, arah hubungan <strong>${strongest.arah.toLowerCase()}</strong>, dan kekuatan hubungan <strong>${strongest.kekuatan.toLowerCase()}</strong>.</li>
+          <li>Korelasi paling lemah terdapat pada parameter <strong>${weakest.parameter}</strong> dengan nilai <strong>r = ${formatNum(weakest.r,3)}</strong>.</li>
+          <li>Secara umum, analisa ini dapat dipakai untuk melihat apakah peningkatan jumlah kendaraan berasosiasi dengan perubahan kualitas pengamatan GNSS, terutama pada parameter dengan |r| dan R² yang lebih besar.</li>
+        </ul>
+      `;
+    }
+
+    function renderTrafficTables() {
+      document.getElementById("trafficDailyTable").innerHTML = state.trafficData.map(v => `
+        <tr>
+          <td>${v.Hari}</td>
+          <td>${formatInt(v.Mobil_1Jam)}</td>
+          <td>${formatInt(v.Truck_1Jam)}</td>
+          <td>${formatInt(v.Motor_1Jam)}</td>
+          <td>${formatInt(v.Total_1Jam)}</td>
+          <td>${formatNum(v.Avg_RMSE_Horiz_m,3)}</td>
+          <td>${formatNum(v.Avg_RMSE_Vert_m,3)}</td>
+          <td>${formatNum(v.Avg_RMSE_Lat_m,3)}</td>
+          <td>${formatNum(v.Avg_RMSE_Long_m,3)}</td>
+        </tr>
+      `).join("");
+
+      document.getElementById("trafficRelationTable").innerHTML = state.trafficRelations.map(v => `
+        <tr>
+          <td>${v.parameter}</td>
+          <td>${formatNum(v.r,3)}</td>
+          <td>${v.arah}</td>
+          <td>${v.kekuatan}</td>
+          <td>${formatNum(v.slope,6)}</td>
+          <td>${formatNum(v.intersep,6)}</td>
+          <td>${formatNum(v.r2,3)}</td>
+        </tr>
+      `).join("");
+
+      document.getElementById("trafficDescTable").innerHTML = state.trafficDesc.map(v => `
+        <tr>
+          <td>${v.parameter}</td>
+          <td>${formatNum(v.mean,3)}</td>
+          <td>${formatNum(v.sd,3)}</td>
+          <td>${formatNum(v.min,3)}</td>
+          <td>${v.minDay}</td>
+          <td>${formatNum(v.max,3)}</td>
+          <td>${v.maxDay}</td>
+          <td>${formatNum(v.cv,2)}</td>
+        </tr>
+      `).join("");
+    }
+
+    function initButtons() {
+      document.querySelectorAll(".bm-btn").forEach(btn => {
+        btn.addEventListener("click", function() {
+          document.querySelectorAll(".bm-btn").forEach(b => b.classList.remove("active"));
+          this.classList.add("active");
+          state.selectedBM = this.dataset.bm;
+          renderBM();
+        });
+      });
+
+      document.querySelectorAll(".day-btn").forEach(btn => {
+        btn.addEventListener("click", function() {
+          document.querySelectorAll(".day-btn").forEach(b => b.classList.remove("active"));
+          this.classList.add("active");
+          state.selectedDay = Number(this.dataset.day);
+          renderBM();
+        });
+      });
+
+      document.querySelectorAll(".traffic-btn").forEach(btn => {
+        btn.addEventListener("click", function() {
+          document.querySelectorAll(".traffic-btn").forEach(b => b.classList.remove("active"));
+          this.classList.add("active");
+          state.selectedTrafficParam = this.dataset.param;
+          renderTrafficScatter();
+        });
+      });
+    }
+
+    function initMap() {
+      const map = L.map("map").setView([-7.157, 112.782], 14);
+
+      const osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap contributors",
+        maxZoom: 19
+      });
+
+      const esri = L.tileLayer(
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        { attribution: "Tiles &copy; Esri", maxZoom: 19 }
+      );
+
+      const carto = L.tileLayer(
+        "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+        { attribution: "&copy; OpenStreetMap contributors &copy; CARTO", maxZoom: 20 }
+      );
+
+      osm.addTo(map);
+
+      const baseMaps = {
+        "OpenStreetMap": osm,
+        "Esri World Imagery": esri,
+        "CartoDB Light": carto
+      };
+
+      L.control.layers(baseMaps, null, { collapsed:false }).addTo(map);
+
+      bmPoints.forEach(p => {
+        L.marker([p.lat, p.lon]).addTo(map).bindPopup(`<b>${p.name}</b><br>Titik benchmark pengamatan`);
+      });
+    }
+
+    initButtons();
+    initMap();
+    loadBMData();
+    loadTrafficData();
+  </script>
+
+</body>
+</html>
