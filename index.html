@@ -11,7 +11,9 @@
     :root{
       --navy:#14324a;
       --blue:#21537e;
+      --blue-2:#2f6b90;
       --sky:#edf5fb;
+      --sky-2:#dfeef8;
       --cream:#f5f0df;
       --line:#d8e1ea;
       --text:#243646;
@@ -20,6 +22,7 @@
       --warn:#d9902f;
       --danger:#c0392b;
       --shadow:0 10px 28px rgba(0,0,0,.08);
+      --shadow-soft:0 18px 36px rgba(20,50,74,.10);
       --radius:22px;
     }
 
@@ -37,13 +40,26 @@
 
     body{
       color:var(--text);
-      background:linear-gradient(135deg, #f4ecd8 0%, #edf5fb 100%);
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,.55) 0%, transparent 25%),
+        linear-gradient(135deg, #f4ecd8 0%, #edf5fb 100%);
     }
 
-    a{ color:inherit; }
+    a{
+      color:inherit;
+      text-decoration:none;
+    }
 
     section{
       scroll-margin-top:100px;
+      padding:118px 20px 60px;
+      display:flex;
+      justify-content:center;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:1220px;
     }
 
     nav{
@@ -139,20 +155,10 @@
       display:block;
     }
 
-    .nav-menu li a:hover{
-      background:#eef5fb;
-      color:var(--blue);
-    }
-
-    section{
-      padding:118px 20px 60px;
-      display:flex;
-      justify-content:center;
-    }
-
-    .wrap{
-      width:100%;
-      max-width:1220px;
+    .nav-menu li a:hover,
+    .nav-menu li a.active-link{
+      background:var(--blue);
+      color:#fff;
     }
 
     .hero{
@@ -161,6 +167,35 @@
       border-radius:30px;
       padding:42px;
       box-shadow:0 24px 50px rgba(20,50,74,.20);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .hero::before{
+      content:"";
+      position:absolute;
+      top:-60px;
+      right:-60px;
+      width:180px;
+      height:180px;
+      border-radius:50%;
+      background:rgba(255,255,255,.08);
+    }
+
+    .hero::after{
+      content:"";
+      position:absolute;
+      bottom:-70px;
+      left:-70px;
+      width:200px;
+      height:200px;
+      border-radius:50%;
+      background:rgba(255,255,255,.05);
+    }
+
+    .hero > *{
+      position:relative;
+      z-index:1;
     }
 
     .hero-grid{
@@ -243,6 +278,12 @@
       border:1px solid rgba(255,255,255,.10);
       border-radius:20px;
       padding:18px;
+      transition:.25s ease;
+    }
+
+    .hero-mini:hover{
+      transform:translateY(-3px);
+      background:rgba(255,255,255,.16);
     }
 
     .hero-mini h3{
@@ -257,14 +298,29 @@
     }
 
     .section-card{
-      background:rgba(255,255,255,.90);
+      background:rgba(255,255,255,.92);
       border:1px solid rgba(20,50,74,.08);
       border-radius:28px;
       box-shadow:var(--shadow);
       padding:34px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .section-card::after{
+      content:"";
+      position:absolute;
+      top:0;
+      right:0;
+      width:120px;
+      height:120px;
+      background:radial-gradient(circle, rgba(33,83,126,.08) 0%, rgba(33,83,126,0) 70%);
+      pointer-events:none;
     }
 
     .section-header{
+      position:relative;
+      z-index:1;
       margin-bottom:22px;
     }
 
@@ -278,6 +334,7 @@
       font-weight:800;
       text-transform:uppercase;
       margin-bottom:12px;
+      box-shadow:inset 0 0 0 1px rgba(33,83,126,.08);
     }
 
     .section-header h2{
@@ -298,14 +355,28 @@
       display:grid;
       grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
       gap:18px;
+      position:relative;
+      z-index:1;
     }
 
-    .feature, .kpi, .panel, .table-card, .download-block{
+    .feature, .kpi, .panel, .table-card, .download-block, .timeline-item{
       background:#fff;
       border:1px solid var(--line);
       border-radius:22px;
       padding:22px;
       box-shadow:0 8px 18px rgba(0,0,0,.04);
+      transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+
+    .feature:hover,
+    .kpi:hover,
+    .panel:hover,
+    .table-card:hover,
+    .download-block:hover,
+    .timeline-item:hover{
+      transform:translateY(-4px);
+      box-shadow:0 18px 34px rgba(0,0,0,.08);
+      border-color:rgba(33,83,126,.16);
     }
 
     .feature .icon{
@@ -337,17 +408,14 @@
     .timeline{
       display:grid;
       gap:16px;
+      position:relative;
+      z-index:1;
     }
 
     .timeline-item{
       display:grid;
       grid-template-columns:120px 1fr;
       gap:18px;
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:22px;
-      padding:20px;
-      box-shadow:0 8px 18px rgba(0,0,0,.04);
     }
 
     .timeline-year{
@@ -378,6 +446,8 @@
       overflow:hidden;
       border:2px solid rgba(20,50,74,.08);
       box-shadow:0 10px 24px rgba(0,0,0,.08);
+      position:relative;
+      z-index:1;
     }
 
     #map{
@@ -386,7 +456,6 @@
     }
 
     .note, .status{
-      margin-top:16px;
       padding:14px 16px;
       background:#eef6fb;
       border:1px solid #d7e6f3;
@@ -394,11 +463,38 @@
       line-height:1.8;
       color:var(--blue);
       font-size:14px;
+      position:relative;
+      z-index:1;
+    }
+
+    .note{
+      margin-top:16px;
     }
 
     .status{
       margin-bottom:18px;
-      margin-top:0;
+    }
+
+    .status.loading{
+      padding-left:42px;
+    }
+
+    .status.loading::before{
+      content:"";
+      position:absolute;
+      left:16px;
+      top:50%;
+      width:14px;
+      height:14px;
+      margin-top:-7px;
+      border-radius:50%;
+      border:2px solid #9fc2df;
+      border-top-color:#21537e;
+      animation:spin 1s linear infinite;
+    }
+
+    @keyframes spin{
+      to{ transform:rotate(360deg); }
     }
 
     .kpi small{
@@ -417,6 +513,7 @@
       color:var(--navy);
       margin-bottom:8px;
       line-height:1.2;
+      word-break:break-word;
     }
 
     .kpi p{
@@ -443,6 +540,8 @@
       flex-wrap:wrap;
       gap:10px;
       margin-bottom:18px;
+      position:relative;
+      z-index:1;
     }
 
     .toolbar button{
@@ -464,12 +563,18 @@
 
     .panel{
       margin-bottom:22px;
+      position:relative;
+      z-index:1;
     }
 
     .panel .sub{
       font-size:14px;
       color:var(--muted);
       margin-bottom:16px;
+      background:#f6f9fc;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid #e4ecf3;
     }
 
     .chart-box{
@@ -514,6 +619,8 @@
 
     .download-block{
       margin-top:26px;
+      position:relative;
+      z-index:1;
     }
 
     .day-group{
@@ -545,6 +652,11 @@
       word-break:break-word;
     }
 
+    .download-list a::before{
+      content:"⬇ ";
+      font-weight:900;
+    }
+
     .download-list a:hover{
       background:var(--blue);
       color:#fff;
@@ -553,6 +665,8 @@
 
     .table-card{
       margin-bottom:22px;
+      position:relative;
+      z-index:1;
     }
 
     .table-scroll{
@@ -594,9 +708,61 @@
     }
 
     footer{
+      margin-top:6px;
+      border-top:1px solid rgba(20,50,74,.08);
+      background:rgba(255,255,255,.45);
       text-align:center;
       padding:24px 20px 40px;
       color:#5c6975;
+    }
+
+    .footer-sub{
+      display:block;
+      margin-top:8px;
+      font-size:13px;
+      color:#7a8793;
+    }
+
+    .top-btn{
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      width:48px;
+      height:48px;
+      border:none;
+      border-radius:50%;
+      background:#21537e;
+      color:#fff;
+      font-size:20px;
+      font-weight:900;
+      box-shadow:0 10px 24px rgba(33,83,126,.25);
+      cursor:pointer;
+      z-index:998;
+      opacity:0;
+      visibility:hidden;
+      transform:translateY(10px);
+      transition:.25s ease;
+    }
+
+    .top-btn.show{
+      opacity:1;
+      visibility:visible;
+      transform:translateY(0);
+    }
+
+    .fade-in{
+      animation:fadeInUp .55s ease both;
+    }
+
+    @keyframes fadeInUp{
+      from{
+        opacity:0;
+        transform:translateY(12px);
+      }
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
     }
 
     .leaflet-control-layers{
@@ -718,6 +884,13 @@
         font-size:12px;
         max-width:180px;
       }
+
+      .top-btn{
+        width:44px;
+        height:44px;
+        right:14px;
+        bottom:14px;
+      }
     }
 
     @media (max-width:480px){
@@ -780,12 +953,12 @@
 
       <ul class="nav-menu" id="navMenu">
         <li><a href="#beranda">Beranda</a></li>
+        <li><a href="#deformasi">Deformasi</a></li>
+        <li><a href="#sejarah">Sejarah</a></li>
+        <li><a href="#peta">Peta & Data</a></li>
         <li><a href="#ringkasan-hasil">Ringkasan Hasil</a></li>
         <li><a href="#analisis-bm">Analisis BM</a></li>
         <li><a href="#traffic">Analisa Traffic</a></li>
-        <li><a href="#peta">Peta & Data</a></li>
-        <li><a href="#deformasi">Deformasi</a></li>
-        <li><a href="#sejarah">Sejarah</a></li>
         <li><a href="#kesimpulan">Kesimpulan</a></li>
       </ul>
     </div>
@@ -793,31 +966,31 @@
 
   <section id="beranda">
     <div class="wrap">
-      <div class="hero">
+      <div class="hero fade-in">
         <div class="hero-grid">
           <div>
             <span class="eyebrow">Halaman Utama</span>
             <h2>WebGIS Deformasi Jembatan Suramadu</h2>
             <p>
-              Website ini menampilkan hasil pengamatan benchmark, analisis deformasi per BM,
-              analisa traffic, peta lokasi pengamatan, serta akses unduh file CNB dalam satu
-              tampilan yang lebih informatif dan mudah dipahami.
+              Website ini menampilkan informasi deformasi Jembatan Suramadu, lokasi benchmark,
+              hasil analisis per BM, analisa traffic, serta akses data pengukuran dalam satu
+              tampilan web yang lebih rapi, informatif, dan mudah dipahami.
             </p>
 
             <div class="hero-actions">
-              <a class="btn btn-primary" href="#ringkasan-hasil">Lihat Ringkasan Hasil</a>
-              <a class="btn btn-outline" href="#analisis-bm">Buka Analisis BM</a>
+              <a class="btn btn-primary" href="#peta">Lihat Peta</a>
+              <a class="btn btn-outline" href="#ringkasan-hasil">Lihat Hasil</a>
             </div>
           </div>
 
           <div class="hero-side">
             <div class="hero-mini">
               <h3>4 BM</h3>
-              <p>BM1, BM2, BM3, dan BM4 sebagai titik pengamatan utama.</p>
+              <p>BM1, BM2, BM3, dan BM4 sebagai titik benchmark pengamatan utama.</p>
             </div>
             <div class="hero-mini">
               <h3>4 Hari</h3>
-              <p>Pengamatan harian untuk membaca tren deformasi dan kualitas hasil ukur.</p>
+              <p>Pengamatan dilakukan dalam empat hari untuk membaca pola perubahan.</p>
             </div>
             <div class="hero-mini">
               <h3>GNSS</h3>
@@ -825,7 +998,158 @@
             </div>
             <div class="hero-mini">
               <h3>Traffic</h3>
-              <p>Analisa tambahan untuk melihat hubungan volume kendaraan dengan kualitas pengukuran.</p>
+              <p>Analisa tambahan untuk melihat hubungan traffic terhadap kualitas pengukuran.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="deformasi">
+    <div class="wrap">
+      <div class="section-card fade-in">
+        <div class="section-header">
+          <span class="section-label">Informasi Struktur</span>
+          <h2>Deskripsi Deformasi</h2>
+          <p>
+            Deformasi jembatan adalah perubahan posisi atau dimensi struktur akibat beban kendaraan,
+            suhu, angin, getaran, dan kondisi lingkungan. Pemantauan berkala diperlukan untuk melihat
+            kestabilan struktur serta perubahan posisi vertikal maupun horizontal.
+          </p>
+        </div>
+
+        <div class="feature-grid">
+          <div class="feature">
+            <div class="icon">B</div>
+            <h3>Beban Kendaraan</h3>
+            <p>Arus kendaraan yang berulang dapat memberi tekanan dinamis pada struktur dan memengaruhi pergerakan kecil jembatan.</p>
+          </div>
+          <div class="feature">
+            <div class="icon">S</div>
+            <h3>Suhu & Lingkungan</h3>
+            <p>Perubahan temperatur dan kondisi lingkungan memicu pemuaian, penyusutan, serta perubahan kecil pada struktur.</p>
+          </div>
+          <div class="feature">
+            <div class="icon">V</div>
+            <h3>Analisis Vertikal</h3>
+            <p>Time series vertikal membantu membaca kecenderungan naik-turun posisi titik ukur dari waktu ke waktu.</p>
+          </div>
+          <div class="feature">
+            <div class="icon">H</div>
+            <h3>Analisis Horizontal</h3>
+            <p>Scatter plot horizontal memperlihatkan sebaran ΔE dan ΔN untuk menilai kestabilan posisi hasil pengamatan.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sejarah">
+    <div class="wrap">
+      <div class="section-card fade-in">
+        <div class="section-header">
+          <span class="section-label">Latar Belakang</span>
+          <h2>Sejarah Jembatan Suramadu</h2>
+          <p>
+            Jembatan Suramadu menghubungkan Surabaya dan Madura serta menjadi infrastruktur penting
+            bagi mobilitas masyarakat dan distribusi logistik. Karena fungsinya yang besar, pemantauan
+            kondisi geometrik dan deformasi menjadi bagian penting dalam evaluasi struktur.
+          </p>
+        </div>
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-year">2003</div>
+            <div class="timeline-content">
+              <h3>Awal Pembangunan</h3>
+              <p>Proyek pembangunan dimulai sebagai jembatan strategis penghubung Pulau Jawa dan Madura.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-year">2009</div>
+            <div class="timeline-content">
+              <h3>Peresmian</h3>
+              <p>Jembatan Suramadu resmi beroperasi dan menjadi salah satu ikon infrastruktur penting di Indonesia.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-year">Kini</div>
+            <div class="timeline-content">
+              <h3>Monitoring Deformasi</h3>
+              <p>Pengamatan benchmark dan evaluasi hasil ukur dilakukan untuk membantu membaca kestabilan jembatan secara periodik.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="peta">
+    <div class="wrap">
+      <div class="section-card fade-in">
+        <div class="section-header">
+          <span class="section-label">Peta Pengamatan</span>
+          <h2>Peta Titik Benchmark & Akses File CNB</h2>
+          <p>
+            Bagian ini menampilkan lokasi titik benchmark pengamatan pada Jembatan Suramadu
+            serta menyediakan akses unduh file CNB secara langsung.
+          </p>
+        </div>
+
+        <div class="map-box">
+          <div id="map"></div>
+        </div>
+
+        <div class="note">
+          Marker menunjukkan titik BM1, BM2, BM3, dan BM4. Basemap dapat diganti melalui kontrol layer peta.
+        </div>
+
+        <div class="download-block">
+          <h3>Unduh File Pengukuran CNB</h3>
+          <p>
+            File CNB berikut dapat diunduh langsung oleh pengguna website melalui GitHub Releases.
+          </p>
+
+          <div class="day-group">
+            <h4>Pengukuran Day 1</h4>
+            <div class="download-list">
+              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM1Day1.cnb" download>BM1Day1.cnb</a>
+              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM2Day1.cnb" download>BM2Day1.cnb</a>
+              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM3Day1.cnb" download>BM3Day1.cnb</a>
+              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM4Day1.cnb" download>BM4Day1.cnb</a>
+            </div>
+          </div>
+
+          <div class="day-group">
+            <h4>Pengukuran Day 2</h4>
+            <div class="download-list">
+              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM1Day2.cnb" download>BM1Day2.cnb</a>
+              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM2Day2.cnb" download>BM2Day2.cnb</a>
+              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM3Day2.cnb" download>BM3Day2.cnb</a>
+              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM4Day2.cnb" download>BM4Day2.cnb</a>
+            </div>
+          </div>
+
+          <div class="day-group">
+            <h4>Pengukuran Day 3</h4>
+            <div class="download-list">
+              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM1Day3.cnb" download>BM1Day3.cnb</a>
+              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM2Day3.cnb" download>BM2Day3.cnb</a>
+              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM3Day3.cnb" download>BM3Day3.cnb</a>
+              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM4Day3.cnb" download>BM4Day3.cnb</a>
+            </div>
+          </div>
+
+          <div class="day-group">
+            <h4>Pengukuran Day 4</h4>
+            <div class="download-list">
+              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM1Day4.cnb" download>BM1Day4.cnb</a>
+              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM2Day4.cnb" download>BM2Day4.cnb</a>
+              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM3Day4.cnb" download>BM3Day4.cnb</a>
+              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM4Day4.cnb" download>BM4Day4.cnb</a>
             </div>
           </div>
         </div>
@@ -835,7 +1159,7 @@
 
   <section id="ringkasan-hasil">
     <div class="wrap">
-      <div class="section-card">
+      <div class="section-card fade-in">
         <div class="section-header">
           <span class="section-label">Ringkasan Hasil</span>
           <h2>Hasil Utama Pengamatan</h2>
@@ -866,13 +1190,17 @@
             <p>Hubungan traffic dan parameter GNSS yang paling kuat.</p>
           </div>
         </div>
+
+        <div class="note" id="summaryQuickNote" style="margin-top:18px;">
+          Ringkasan hasil akan tampil setelah data benchmark dan traffic berhasil dimuat.
+        </div>
       </div>
     </div>
   </section>
 
   <section id="analisis-bm">
     <div class="wrap">
-      <div class="section-card">
+      <div class="section-card fade-in">
         <div class="section-header">
           <span class="section-label">Analisis Benchmark</span>
           <h2>Analisis Per BM</h2>
@@ -890,7 +1218,7 @@
           <button class="bm-btn" data-bm="BM4">BM4</button>
         </div>
 
-        <div id="bmStatus" class="status">Memuat data analisa BM...</div>
+        <div id="bmStatus" class="status loading">Memuat data analisa BM...</div>
 
         <div id="bmKpis" class="kpi-grid"></div>
 
@@ -964,7 +1292,7 @@
 
   <section id="traffic">
     <div class="wrap">
-      <div class="section-card">
+      <div class="section-card fade-in">
         <div class="section-header">
           <span class="section-label">Analisa Traffic</span>
           <h2>Analisa Traffic dan Hubungannya dengan Hasil Pengukuran</h2>
@@ -975,7 +1303,7 @@
           </p>
         </div>
 
-        <div id="trafficStatus" class="status">Memuat data traffic...</div>
+        <div id="trafficStatus" class="status loading">Memuat data traffic...</div>
 
         <div id="trafficKpis" class="kpi-grid"></div>
 
@@ -1086,160 +1414,9 @@
     </div>
   </section>
 
-  <section id="peta">
-    <div class="wrap">
-      <div class="section-card">
-        <div class="section-header">
-          <span class="section-label">Peta Pengamatan</span>
-          <h2>Peta Titik Benchmark & Akses File CNB</h2>
-          <p>
-            Bagian ini menampilkan lokasi titik benchmark pengamatan pada Jembatan Suramadu
-            serta menyediakan akses unduh file CNB secara langsung.
-          </p>
-        </div>
-
-        <div class="map-box">
-          <div id="map"></div>
-        </div>
-
-        <div class="note">
-          Marker menunjukkan titik BM1, BM2, BM3, dan BM4. Basemap dapat diganti melalui kontrol layer peta.
-        </div>
-
-        <div class="download-block">
-          <h3>Unduh File Pengukuran CNB</h3>
-          <p>
-            File CNB berikut dapat diunduh langsung oleh pengguna website melalui GitHub Releases.
-          </p>
-
-          <div class="day-group">
-            <h4>Pengukuran Day 1</h4>
-            <div class="download-list">
-              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM1Day1.cnb" download>BM1Day1.cnb</a>
-              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM2Day1.cnb" download>BM2Day1.cnb</a>
-              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM3Day1.cnb" download>BM3Day1.cnb</a>
-              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM4Day1.cnb" download>BM4Day1.cnb</a>
-            </div>
-          </div>
-
-          <div class="day-group">
-            <h4>Pengukuran Day 2</h4>
-            <div class="download-list">
-              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM1Day2.cnb" download>BM1Day2.cnb</a>
-              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM2Day2.cnb" download>BM2Day2.cnb</a>
-              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM3Day2.cnb" download>BM3Day2.cnb</a>
-              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM4Day2.cnb" download>BM4Day2.cnb</a>
-            </div>
-          </div>
-
-          <div class="day-group">
-            <h4>Pengukuran Day 3</h4>
-            <div class="download-list">
-              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM1Day3.cnb" download>BM1Day3.cnb</a>
-              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM2Day3.cnb" download>BM2Day3.cnb</a>
-              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM3Day3.cnb" download>BM3Day3.cnb</a>
-              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM4Day3.cnb" download>BM4Day3.cnb</a>
-            </div>
-          </div>
-
-          <div class="day-group">
-            <h4>Pengukuran Day 4</h4>
-            <div class="download-list">
-              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM1Day4.cnb" download>BM1Day4.cnb</a>
-              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM2Day4.cnb" download>BM2Day4.cnb</a>
-              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM3Day4.cnb" download>BM3Day4.cnb</a>
-              <a href="https://github.com/Fachrengga/WebGIS-Jembatan-Suramadu/releases/download/v1.0-data-cnb/BM4Day4.cnb" download>BM4Day4.cnb</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="deformasi">
-    <div class="wrap">
-      <div class="section-card">
-        <div class="section-header">
-          <span class="section-label">Informasi Struktur</span>
-          <h2>Deskripsi Deformasi</h2>
-          <p>
-            Deformasi jembatan adalah perubahan posisi atau dimensi struktur akibat beban kendaraan,
-            suhu, angin, getaran, dan kondisi lingkungan. Pemantauan yang dilakukan secara berkala
-            membantu melihat kestabilan struktur serta pola perubahan posisi vertikal maupun horizontal.
-          </p>
-        </div>
-
-        <div class="feature-grid">
-          <div class="feature">
-            <div class="icon">B</div>
-            <h3>Beban Kendaraan</h3>
-            <p>Arus kendaraan yang berulang dapat memberi tekanan dinamis pada struktur dan memengaruhi pergerakan kecil pada jembatan.</p>
-          </div>
-          <div class="feature">
-            <div class="icon">S</div>
-            <h3>Suhu & Lingkungan</h3>
-            <p>Perubahan temperatur dan lingkungan dapat memicu pemuaian dan penyusutan pada elemen struktur.</p>
-          </div>
-          <div class="feature">
-            <div class="icon">V</div>
-            <h3>Analisis Vertikal</h3>
-            <p>Time series vertikal dipakai untuk membaca kecenderungan naik-turun posisi titik ukur dari waktu ke waktu.</p>
-          </div>
-          <div class="feature">
-            <div class="icon">H</div>
-            <h3>Analisis Horizontal</h3>
-            <p>Scatter plot horizontal menampilkan penyebaran ΔE dan ΔN untuk melihat kestabilan posisi pengamatan.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="sejarah">
-    <div class="wrap">
-      <div class="section-card">
-        <div class="section-header">
-          <span class="section-label">Latar Belakang</span>
-          <h2>Sejarah Jembatan Suramadu</h2>
-          <p>
-            Jembatan Suramadu menghubungkan Surabaya dan Madura dan menjadi salah satu infrastruktur
-            penting bagi mobilitas masyarakat dan distribusi logistik. Karena perannya yang besar,
-            pemantauan kondisi geometrik dan deformasi menjadi hal penting dalam evaluasi struktur.
-          </p>
-        </div>
-
-        <div class="timeline">
-          <div class="timeline-item">
-            <div class="timeline-year">2003</div>
-            <div class="timeline-content">
-              <h3>Awal Pembangunan</h3>
-              <p>Proyek pembangunan dimulai sebagai jembatan strategis penghubung Pulau Jawa dan Madura.</p>
-            </div>
-          </div>
-
-          <div class="timeline-item">
-            <div class="timeline-year">2009</div>
-            <div class="timeline-content">
-              <h3>Peresmian</h3>
-              <p>Jembatan Suramadu resmi beroperasi dan menjadi salah satu ikon infrastruktur penting di Indonesia.</p>
-            </div>
-          </div>
-
-          <div class="timeline-item">
-            <div class="timeline-year">Kini</div>
-            <div class="timeline-content">
-              <h3>Monitoring Deformasi</h3>
-              <p>Pengamatan benchmark dan analisis kualitas hasil ukur dilakukan untuk membantu evaluasi kestabilan jembatan secara periodik.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section id="kesimpulan">
     <div class="wrap">
-      <div class="section-card">
+      <div class="section-card fade-in">
         <div class="section-header">
           <span class="section-label">Kesimpulan</span>
           <h2>Kesimpulan Akhir</h2>
@@ -1257,7 +1434,10 @@
 
   <footer>
     &copy; 2026 WebGIS Deformasi Jembatan Suramadu
+    <span class="footer-sub">Visualisasi benchmark, analisis deformasi, traffic, dan akses data pengukuran</span>
   </footer>
+
+  <button class="top-btn" id="topBtn" aria-label="Kembali ke atas">↑</button>
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
@@ -1275,9 +1455,9 @@
       red: "#c0392b",
       green: "#2e8b57",
       orange: "#f39c12",
-      motor: "#2e8b57",
       mobil: "#2b6c97",
-      truck: "#d98f39"
+      truck: "#d98f39",
+      motor: "#2e8b57"
     };
 
     const bmPoints = [
@@ -1298,12 +1478,17 @@
       trafficDesc: []
     };
 
-    let rmsBarChart, tsChart, scatterChart;
-    let trafficCompositionChart, trafficRmseChart, trafficScatterChart;
+    let rmsBarChart = null;
+    let tsChart = null;
+    let scatterChart = null;
+    let trafficCompositionChart = null;
+    let trafficRmseChart = null;
+    let trafficScatterChart = null;
 
     function setStatus(id, text, error = false) {
       const el = document.getElementById(id);
       el.textContent = text;
+      el.classList.remove("loading");
       if (error) {
         el.style.background = "#fdecec";
         el.style.borderColor = "#f3c7c7";
@@ -1326,17 +1511,17 @@
     }
 
     function mean(arr) {
-      return arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : 0;
+      return arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
     }
 
     function rms(arr) {
-      return arr.length ? Math.sqrt(arr.reduce((s,v)=>s+v*v,0)/arr.length) : 0;
+      return arr.length ? Math.sqrt(arr.reduce((s, v) => s + v * v, 0) / arr.length) : 0;
     }
 
     function sampleStd(arr) {
       if (arr.length < 2) return 0;
       const m = mean(arr);
-      return Math.sqrt(arr.reduce((s,v)=>s+Math.pow(v-m,2),0)/(arr.length-1));
+      return Math.sqrt(arr.reduce((s, v) => s + Math.pow(v - m, 2), 0) / (arr.length - 1));
     }
 
     function correlation(x, y) {
@@ -1344,28 +1529,28 @@
       const mx = mean(x), my = mean(y);
       let num = 0, dx = 0, dy = 0;
       for (let i = 0; i < x.length; i++) {
-        num += (x[i]-mx)*(y[i]-my);
-        dx += Math.pow(x[i]-mx,2);
-        dy += Math.pow(y[i]-my,2);
+        num += (x[i] - mx) * (y[i] - my);
+        dx += Math.pow(x[i] - mx, 2);
+        dy += Math.pow(y[i] - my, 2);
       }
-      const den = Math.sqrt(dx*dy);
-      return den ? num/den : 0;
+      const den = Math.sqrt(dx * dy);
+      return den ? num / den : 0;
     }
 
     function linearRegression(x, y) {
       if (x.length !== y.length || x.length < 2) {
-        return { slope:0, intercept:0, r:0, r2:0 };
+        return { slope: 0, intercept: 0, r: 0, r2: 0 };
       }
       const mx = mean(x), my = mean(y);
       let num = 0, den = 0;
       for (let i = 0; i < x.length; i++) {
-        num += (x[i]-mx)*(y[i]-my);
-        den += Math.pow(x[i]-mx,2);
+        num += (x[i] - mx) * (y[i] - my);
+        den += Math.pow(x[i] - mx, 2);
       }
-      const slope = den ? num/den : 0;
-      const intercept = my - slope*mx;
+      const slope = den ? num / den : 0;
+      const intercept = my - slope * mx;
       const r = correlation(x, y);
-      return { slope, intercept, r, r2:r*r };
+      return { slope, intercept, r, r2: r * r };
     }
 
     function strengthLabel(r) {
@@ -1400,7 +1585,7 @@
 
       if (!dateObj) return null;
 
-      let h=0,m=0,s=0;
+      let h = 0, m = 0, s = 0;
 
       if (timeVal instanceof Date) {
         h = timeVal.getHours();
@@ -1408,9 +1593,9 @@
         s = timeVal.getSeconds();
       } else if (typeof timeVal === "number") {
         const total = Math.round(timeVal * 24 * 60 * 60);
-        h = Math.floor(total/3600);
-        m = Math.floor((total%3600)/60);
-        s = total%60;
+        h = Math.floor(total / 3600);
+        m = Math.floor((total % 3600) / 60);
+        s = total % 60;
       } else if (typeof timeVal === "string") {
         const sp = timeVal.split(":").map(Number);
         h = sp[0] || 0;
@@ -1444,11 +1629,11 @@
         const res = await fetch(BM_FILE);
         if (!res.ok) throw new Error("File hasil analisa BM tidak ditemukan.");
         const buffer = await res.arrayBuffer();
-        const wb = XLSX.read(buffer, { type:"array", cellDates:true });
+        const wb = XLSX.read(buffer, { type: "array", cellDates: true });
         if (!wb.SheetNames.length) throw new Error("Workbook BM kosong.");
 
-        const summary = { BM1:[], BM2:[], BM3:[], BM4:[] };
-        const raw = { BM1:{}, BM2:{}, BM3:{}, BM4:{} };
+        const summary = { BM1: [], BM2: [], BM3: [], BM4: [] };
+        const raw = { BM1: {}, BM2: {}, BM3: {}, BM4: {} };
 
         wb.SheetNames.forEach(sheetName => {
           if (!/^BM\d+Day\d+$/i.test(sheetName)) return;
@@ -1460,7 +1645,7 @@
           const bm = bmMatch[0].toUpperCase();
           const day = Number(dayMatch[1]);
           const ws = wb.Sheets[sheetName];
-          const rows = XLSX.utils.sheet_to_json(ws, { header:1, raw:true });
+          const rows = XLSX.utils.sheet_to_json(ws, { header: 1, raw: true });
 
           const getCell = a => ws[a] ? ws[a].v : null;
 
@@ -1491,6 +1676,7 @@
             const lat = Number(r[2]);
             const lon = Number(r[3]);
             const h = Number(r[4]);
+
             if (!isFinite(lat) || !isFinite(lon) || !isFinite(h)) continue;
 
             const ts = parseDateTime(tgl, jam);
@@ -1512,13 +1698,15 @@
           raw[bm][`Day${day}`] = pts;
         });
 
-        Object.keys(summary).forEach(bm => summary[bm].sort((a,b) => a.day - b.day));
+        Object.keys(summary).forEach(bm => summary[bm].sort((a, b) => a.day - b.day));
 
         state.bmSummary = summary;
         state.bmRaw = raw;
+
         setStatus("bmStatus", "Data analisa BM berhasil dimuat.");
         renderBM();
         renderMainInsights();
+        renderSummaryQuickNote();
         renderFinalConclusion();
       } catch (err) {
         console.error(err);
@@ -1531,11 +1719,11 @@
         const res = await fetch(TRAFFIC_FILE);
         if (!res.ok) throw new Error("File hasil analisa traffic tidak ditemukan.");
         const buffer = await res.arrayBuffer();
-        const wb = XLSX.read(buffer, { type:"array", cellDates:true });
+        const wb = XLSX.read(buffer, { type: "array", cellDates: true });
         if (!wb.SheetNames.length) throw new Error("Workbook traffic kosong.");
 
         const ws = wb.Sheets["Data_Per_Hari"] || wb.Sheets[wb.SheetNames[0]];
-        const rows = XLSX.utils.sheet_to_json(ws, { header:1, raw:true });
+        const rows = XLSX.utils.sheet_to_json(ws, { header: 1, raw: true });
 
         const daily = [];
         for (let i = 1; i < rows.length; i++) {
@@ -1558,10 +1746,10 @@
         }
 
         const params = [
-          { key:"Avg_RMSE_Horiz_m", label:"RMSE Horizontal" },
-          { key:"Avg_RMSE_Vert_m", label:"RMSE Vertikal" },
-          { key:"Avg_RMSE_Lat_m", label:"RMSE Latitude" },
-          { key:"Avg_RMSE_Long_m", label:"RMSE Longitude" }
+          { key: "Avg_RMSE_Horiz_m", label: "RMSE Horizontal" },
+          { key: "Avg_RMSE_Vert_m", label: "RMSE Vertikal" },
+          { key: "Avg_RMSE_Lat_m", label: "RMSE Latitude" },
+          { key: "Avg_RMSE_Long_m", label: "RMSE Longitude" }
         ];
 
         const x = daily.map(d => d.Total_1Jam);
@@ -1609,6 +1797,7 @@
         setStatus("trafficStatus", "Data traffic berhasil dimuat.");
         renderTraffic();
         renderMainInsights();
+        renderSummaryQuickNote();
         renderFinalConclusion();
       } catch (err) {
         console.error(err);
@@ -1628,21 +1817,50 @@
       }).filter(v => isFinite(v.avgVert));
 
       if (bmStats.length) {
-        const stable = bmStats.reduce((a,b)=>a.avgVert < b.avgVert ? a : b);
-        const sensitive = bmStats.reduce((a,b)=>a.maxVert > b.maxVert ? a : b);
+        const stable = bmStats.reduce((a, b) => a.avgVert < b.avgVert ? a : b);
+        const sensitive = bmStats.reduce((a, b) => a.maxVert > b.maxVert ? a : b);
         document.getElementById("insightStableBM").textContent = stable.bm;
         document.getElementById("insightSensitiveBM").textContent = sensitive.bm;
       }
 
       if (state.trafficData.length) {
-        const peak = state.trafficData.reduce((a,b)=>a.Total_1Jam > b.Total_1Jam ? a : b);
+        const peak = state.trafficData.reduce((a, b) => a.Total_1Jam > b.Total_1Jam ? a : b);
         document.getElementById("insightPeakTraffic").textContent = peak.Hari;
       }
 
       if (state.trafficRelations.length) {
-        const strongest = state.trafficRelations.reduce((a,b)=>Math.abs(a.r) > Math.abs(b.r) ? a : b);
+        const strongest = state.trafficRelations.reduce((a, b) => Math.abs(a.r) > Math.abs(b.r) ? a : b);
         document.getElementById("insightStrongestCorr").textContent = strongest.parameter;
       }
+    }
+
+    function renderSummaryQuickNote() {
+      const bmKeys = Object.keys(state.bmSummary || {});
+      const bmStats = bmKeys.map(bm => {
+        const arr = state.bmSummary[bm] || [];
+        return {
+          bm,
+          avgVert: arr.length ? mean(arr.map(v => v.rmseHeightTrimble)) : Infinity
+        };
+      }).filter(v => isFinite(v.avgVert));
+
+      const stable = bmStats.length ? bmStats.reduce((a, b) => a.avgVert < b.avgVert ? a : b) : null;
+      const sensitive = bmStats.length ? bmStats.reduce((a, b) => a.avgVert > b.avgVert ? a : b) : null;
+      const strongest = state.trafficRelations.length ? state.trafficRelations.reduce((a, b) => Math.abs(a.r) > Math.abs(b.r) ? a : b) : null;
+
+      const note = document.getElementById("summaryQuickNote");
+      if (!note) return;
+
+      if (!stable && !strongest) {
+        note.textContent = "Ringkasan hasil akan tampil setelah data benchmark dan traffic berhasil dimuat.";
+        return;
+      }
+
+      note.innerHTML = `
+        Secara umum, <strong>${stable ? stable.bm : "-"}</strong> menunjukkan kondisi paling stabil,
+        sedangkan <strong>${sensitive ? sensitive.bm : "-"}</strong> cenderung memiliki deviasi lebih besar.
+        Dari sisi traffic, hubungan paling menonjol terlihat pada <strong>${strongest ? strongest.parameter : "-"}</strong>.
+      `;
     }
 
     function renderFinalConclusion() {
@@ -1657,10 +1875,10 @@
         };
       }).filter(v => isFinite(v.avgVert));
 
-      const stable = bmStats.length ? bmStats.reduce((a,b)=>a.avgVert < b.avgVert ? a : b) : null;
-      const sensitive = bmStats.length ? bmStats.reduce((a,b)=>a.avgVert > b.avgVert ? a : b) : null;
-      const peak = state.trafficData.length ? state.trafficData.reduce((a,b)=>a.Total_1Jam > b.Total_1Jam ? a : b) : null;
-      const strongest = state.trafficRelations.length ? state.trafficRelations.reduce((a,b)=>Math.abs(a.r) > Math.abs(b.r) ? a : b) : null;
+      const stable = bmStats.length ? bmStats.reduce((a, b) => a.avgVert < b.avgVert ? a : b) : null;
+      const sensitive = bmStats.length ? bmStats.reduce((a, b) => a.avgVert > b.avgVert ? a : b) : null;
+      const peak = state.trafficData.length ? state.trafficData.reduce((a, b) => a.Total_1Jam > b.Total_1Jam ? a : b) : null;
+      const strongest = state.trafficRelations.length ? state.trafficRelations.reduce((a, b) => Math.abs(a.r) > Math.abs(b.r) ? a : b) : null;
 
       document.getElementById("finalConclusion").innerHTML = `
         <ul>
@@ -1668,7 +1886,7 @@
           <li>BM yang memerlukan perhatian lebih adalah <strong>${sensitive ? sensitive.bm : "-"}</strong> karena memiliki nilai RMS vertikal yang relatif lebih besar dibanding BM lainnya.</li>
           <li>Hari dengan volume kendaraan tertinggi terjadi pada <strong>${peak ? peak.Hari : "-"}</strong>${peak ? ` dengan total <strong>${formatInt(peak.Total_1Jam)}</strong> kendaraan.` : "."}</li>
           <li>Hubungan terkuat antara traffic dan parameter GNSS terdapat pada <strong>${strongest ? strongest.parameter : "-"}</strong>${strongest ? ` dengan nilai korelasi <strong>${formatNum(strongest.r,3)}</strong>.` : "."}</li>
-          <li>Website ini dapat digunakan sebagai media visualisasi hasil pengamatan deformasi, analisis benchmark, dan evaluasi hubungan traffic terhadap kualitas hasil ukur GNSS.</li>
+          <li>Website ini dapat digunakan sebagai media visualisasi hasil pengamatan deformasi, analisis benchmark, serta evaluasi hubungan traffic terhadap kualitas hasil ukur GNSS.</li>
         </ul>
       `;
     }
@@ -1682,9 +1900,9 @@
       document.getElementById("rmsSubTitle").textContent = bm;
       document.getElementById("dayChartSubTitle").textContent = `${bm} - Day ${state.selectedDay}`;
 
-      const totalData = summaries.reduce((s,v)=>s+v.jumlah,0);
+      const totalData = summaries.reduce((s, v) => s + v.jumlah, 0);
       const avgVertTrimble = mean(summaries.map(v => v.rmseHeightTrimble));
-      const bestDay = summaries.reduce((a,b)=>a.rmseHeightTrimble < b.rmseHeightTrimble ? a : b);
+      const bestDay = summaries.reduce((a, b) => a.rmseHeightTrimble < b.rmseHeightTrimble ? a : b);
       const ref = summaries[0].refTrimble || bm;
       const status = getStatus(avgVertTrimble);
 
@@ -1701,13 +1919,13 @@
         </div>
         <div class="kpi">
           <small>Rata-rata RMS Vertikal</small>
-          <strong>${formatNum(avgVertTrimble,3)} m</strong>
+          <strong>${formatNum(avgVertTrimble, 3)} m</strong>
           <p>Rata-rata nilai RMS ΔH terhadap referensi Trimble.</p>
         </div>
         <div class="kpi">
           <small>Hari Terbaik</small>
           <strong>Day ${bestDay.day}</strong>
-          <p>Hari dengan RMS ΔH paling kecil: ${formatNum(bestDay.rmseHeightTrimble,3)} m.</p>
+          <p>Hari dengan RMS ΔH paling kecil: ${formatNum(bestDay.rmseHeightTrimble, 3)} m.</p>
         </div>
       `;
 
@@ -1739,19 +1957,19 @@
         data: {
           labels,
           datasets: [
-            { label:"ΔN", data:dN, backgroundColor:colors.n },
-            { label:"ΔE", data:dE, backgroundColor:colors.e },
-            { label:"ΔH", data:dH, backgroundColor:colors.h }
+            { label: "ΔN", data: dN, backgroundColor: colors.n },
+            { label: "ΔE", data: dE, backgroundColor: colors.e },
+            { label: "ΔH", data: dH, backgroundColor: colors.h }
           ]
         },
         options: {
-          responsive:true,
-          maintainAspectRatio:false,
-          animation:false,
-          plugins:{ legend:{ position:"bottom" } },
-          scales:{
-            y:{ beginAtZero:true, title:{ display:true, text:"Meter" } },
-            x:{ grid:{ display:false } }
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: false,
+          plugins: { legend: { position: "bottom" } },
+          scales: {
+            y: { beginAtZero: true, title: { display: true, text: "Meter" } },
+            x: { grid: { display: false } }
           }
         }
       });
@@ -1766,66 +1984,66 @@
       if (scatterChart) scatterChart.destroy();
 
       tsChart = new Chart(ctx1, {
-        type:"line",
-        data:{
-          datasets:[
+        type: "line",
+        data: {
+          datasets: [
             {
-              label:"ΔU",
-              data:pts.map((p,i)=>({x:i,y:p.dH})),
-              borderColor:colors.blue,
-              backgroundColor:colors.blue,
-              pointRadius:0,
-              borderWidth:1.6,
-              tension:.05
+              label: "ΔU",
+              data: pts.map((p, i) => ({ x: i, y: p.dH })),
+              borderColor: colors.blue,
+              backgroundColor: colors.blue,
+              pointRadius: 0,
+              borderWidth: 1.6,
+              tension: 0.05
             },
             {
-              label:"0",
-              data:pts.length ? [{x:0,y:0},{x:pts.length-1,y:0}] : [],
-              borderColor:"#cc0000",
-              pointRadius:0,
-              borderWidth:1
+              label: "0",
+              data: pts.length ? [{ x: 0, y: 0 }, { x: pts.length - 1, y: 0 }] : [],
+              borderColor: "#cc0000",
+              pointRadius: 0,
+              borderWidth: 1
             }
           ]
         },
-        options:{
-          responsive:true,
-          maintainAspectRatio:false,
-          animation:false,
-          plugins:{ legend:{ display:false } },
-          scales:{
-            x:{ type:"linear", title:{ display:true, text:"Epoch" } },
-            y:{ title:{ display:true, text:"ΔU (m)" } }
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { type: "linear", title: { display: true, text: "Epoch" } },
+            y: { title: { display: true, text: "ΔU (m)" } }
           }
         }
       });
 
       scatterChart = new Chart(ctx2, {
-        type:"scatter",
-        data:{
-          datasets:[
+        type: "scatter",
+        data: {
+          datasets: [
             {
-              label:"Sebaran",
-              data:pts.map(p=>({x:p.dE,y:p.dN})),
-              backgroundColor:colors.blue,
-              pointRadius:1.6
+              label: "Sebaran",
+              data: pts.map(p => ({ x: p.dE, y: p.dN })),
+              backgroundColor: colors.blue,
+              pointRadius: 1.6
             },
             {
-              label:"Origin",
-              data:[{x:0,y:0}],
-              backgroundColor:colors.orange,
-              pointRadius:4,
-              pointStyle:"crossRot"
+              label: "Origin",
+              data: [{ x: 0, y: 0 }],
+              backgroundColor: colors.orange,
+              pointRadius: 4,
+              pointStyle: "crossRot"
             }
           ]
         },
-        options:{
-          responsive:true,
-          maintainAspectRatio:false,
-          animation:false,
-          plugins:{ legend:{ display:false } },
-          scales:{
-            x:{ min:-1, max:1, title:{ display:true, text:"ΔE (m)" } },
-            y:{ min:-1, max:1, title:{ display:true, text:"ΔN (m)" } }
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { min: -1, max: 1, title: { display: true, text: "ΔE (m)" } },
+            y: { min: -1, max: 1, title: { display: true, text: "ΔN (m)" } }
           }
         }
       });
@@ -1835,27 +2053,27 @@
       const dayStats = summaries.map(s => {
         const pts = raw[`Day${s.day}`] || [];
         return {
-          day:s.day,
-          rmsN:rms(pts.map(v=>v.dN)),
-          rmsE:rms(pts.map(v=>v.dE)),
-          rmsH:rms(pts.map(v=>v.dH)),
-          maxAbsDH: pts.length ? Math.max(...pts.map(v=>Math.abs(v.dH))) : 0
+          day: s.day,
+          rmsN: rms(pts.map(v => v.dN)),
+          rmsE: rms(pts.map(v => v.dE)),
+          rmsH: rms(pts.map(v => v.dH)),
+          maxAbsDH: pts.length ? Math.max(...pts.map(v => Math.abs(v.dH))) : 0
         };
       });
 
       const avgVert = mean(summaries.map(v => v.rmseHeightTrimble));
       const status = getStatus(avgVert);
-      const bestV = dayStats.reduce((a,b)=>a.rmsH < b.rmsH ? a : b);
-      const worstV = dayStats.reduce((a,b)=>a.rmsH > b.rmsH ? a : b);
-      const bestH = dayStats.reduce((a,b)=>(a.rmsN+a.rmsE)<(b.rmsN+b.rmsE)?a:b);
-      const worstH = dayStats.reduce((a,b)=>(a.rmsN+a.rmsE)>(b.rmsN+b.rmsE)?a:b);
+      const bestV = dayStats.reduce((a, b) => a.rmsH < b.rmsH ? a : b);
+      const worstV = dayStats.reduce((a, b) => a.rmsH > b.rmsH ? a : b);
+      const bestH = dayStats.reduce((a, b) => (a.rmsN + a.rmsE) < (b.rmsN + b.rmsE) ? a : b);
+      const worstH = dayStats.reduce((a, b) => (a.rmsN + a.rmsE) > (b.rmsN + b.rmsE) ? a : b);
 
       document.getElementById("bmAnalysisText").innerHTML = `
         <ul>
-          <li><strong>${bm}</strong> dikategorikan sebagai <strong>${status.text}</strong> berdasarkan rata-rata RMS vertikal terhadap referensi Trimble sebesar <strong>${formatNum(avgVert,3)} m</strong>.</li>
-          <li>Hari dengan performa vertikal terbaik adalah <strong>Day ${bestV.day}</strong> dengan RMS ΔH <strong>${formatNum(bestV.rmsH,3)} m</strong>, sedangkan yang paling besar terjadi pada <strong>Day ${worstV.day}</strong> dengan RMS ΔH <strong>${formatNum(worstV.rmsH,3)} m</strong>.</li>
+          <li><strong>${bm}</strong> dikategorikan sebagai <strong>${status.text}</strong> berdasarkan rata-rata RMS vertikal terhadap referensi Trimble sebesar <strong>${formatNum(avgVert, 3)} m</strong>.</li>
+          <li>Hari dengan performa vertikal terbaik adalah <strong>Day ${bestV.day}</strong> dengan RMS ΔH <strong>${formatNum(bestV.rmsH, 3)} m</strong>, sedangkan yang paling besar terjadi pada <strong>Day ${worstV.day}</strong> dengan RMS ΔH <strong>${formatNum(worstV.rmsH, 3)} m</strong>.</li>
           <li>Dari sisi horizontal, penyebaran posisi paling kecil terlihat pada <strong>Day ${bestH.day}</strong>, sedangkan penyebaran terbesar terlihat pada <strong>Day ${worstH.day}</strong>.</li>
-          <li>Nilai deviasi vertikal maksimum absolut pada ${bm} mencapai sekitar <strong>${formatNum(Math.max(...dayStats.map(v => v.maxAbsDH)),3)} m</strong>.</li>
+          <li>Nilai deviasi vertikal maksimum absolut pada ${bm} mencapai sekitar <strong>${formatNum(Math.max(...dayStats.map(v => v.maxAbsDH)), 3)} m</strong>.</li>
           <li>Secara umum, hasil ${bm} dapat dibaca dari kombinasi RMS error, pola time series, dan sebaran horizontal untuk menilai kestabilan benchmark.</li>
         </ul>
       `;
@@ -1868,10 +2086,10 @@
           <tr>
             <td>Day ${s.day}</td>
             <td>${formatInt(s.jumlah)}</td>
-            <td>${formatNum(rms(pts.map(v=>v.dN)),6)}</td>
-            <td>${formatNum(rms(pts.map(v=>v.dE)),6)}</td>
-            <td>${formatNum(rms(pts.map(v=>v.dH)),3)}</td>
-            <td>${formatNum(s.meanHeight,3)}</td>
+            <td>${formatNum(rms(pts.map(v => v.dN)), 6)}</td>
+            <td>${formatNum(rms(pts.map(v => v.dE)), 6)}</td>
+            <td>${formatNum(rms(pts.map(v => v.dH)), 3)}</td>
+            <td>${formatNum(s.meanHeight, 3)}</td>
             <td>${s.refTrimble}</td>
           </tr>
         `;
@@ -1882,10 +2100,10 @@
       const data = state.trafficData;
       if (!data.length) return;
 
-      const totalAll = data.reduce((s,v)=>s+v.Total_1Jam,0);
+      const totalAll = data.reduce((s, v) => s + v.Total_1Jam, 0);
       const avgTotal = totalAll / data.length;
-      const peak = data.reduce((a,b)=>a.Total_1Jam > b.Total_1Jam ? a : b);
-      const bestHoriz = data.reduce((a,b)=>a.Avg_RMSE_Horiz_m < b.Avg_RMSE_Horiz_m ? a : b);
+      const peak = data.reduce((a, b) => a.Total_1Jam > b.Total_1Jam ? a : b);
+      const bestHoriz = data.reduce((a, b) => a.Avg_RMSE_Horiz_m < b.Avg_RMSE_Horiz_m ? a : b);
 
       document.getElementById("trafficKpis").innerHTML = `
         <div class="kpi">
@@ -1906,7 +2124,7 @@
         <div class="kpi">
           <small>RMSE Horizontal Terbaik</small>
           <strong>${bestHoriz.Hari}</strong>
-          <p>Nilai RMS horizontal minimum: ${formatNum(bestHoriz.Avg_RMSE_Horiz_m,3)} m.</p>
+          <p>Nilai RMS horizontal minimum: ${formatNum(bestHoriz.Avg_RMSE_Horiz_m, 3)} m.</p>
         </div>
       `;
 
@@ -1924,23 +2142,23 @@
       const labels = state.trafficData.map(v => v.Hari);
 
       trafficCompositionChart = new Chart(ctx, {
-        type:"bar",
-        data:{
+        type: "bar",
+        data: {
           labels,
-          datasets:[
-            { label:"Mobil", data:state.trafficData.map(v=>v.Mobil_1Jam), backgroundColor:colors.mobil },
-            { label:"Truck", data:state.trafficData.map(v=>v.Truck_1Jam), backgroundColor:colors.truck },
-            { label:"Motor", data:state.trafficData.map(v=>v.Motor_1Jam), backgroundColor:colors.motor }
+          datasets: [
+            { label: "Mobil", data: state.trafficData.map(v => v.Mobil_1Jam), backgroundColor: colors.mobil },
+            { label: "Truck", data: state.trafficData.map(v => v.Truck_1Jam), backgroundColor: colors.truck },
+            { label: "Motor", data: state.trafficData.map(v => v.Motor_1Jam), backgroundColor: colors.motor }
           ]
         },
-        options:{
-          responsive:true,
-          maintainAspectRatio:false,
-          animation:false,
-          plugins:{ legend:{ position:"bottom" } },
-          scales:{
-            x:{ stacked:true },
-            y:{ stacked:true, title:{ display:true, text:"Jumlah Kendaraan" } }
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: false,
+          plugins: { legend: { position: "bottom" } },
+          scales: {
+            x: { stacked: true },
+            y: { stacked: true, title: { display: true, text: "Jumlah Kendaraan" } }
           }
         }
       });
@@ -1953,44 +2171,44 @@
       const labels = state.trafficData.map(v => v.Hari);
 
       trafficRmseChart = new Chart(ctx, {
-        type:"line",
-        data:{
+        type: "line",
+        data: {
           labels,
-          datasets:[
+          datasets: [
             {
-              label:"Total Kendaraan",
-              data:state.trafficData.map(v=>v.Total_1Jam),
-              borderColor:colors.green,
-              backgroundColor:colors.green,
-              yAxisID:"y",
-              tension:.2
+              label: "Total Kendaraan",
+              data: state.trafficData.map(v => v.Total_1Jam),
+              borderColor: colors.green,
+              backgroundColor: colors.green,
+              yAxisID: "y",
+              tension: 0.2
             },
             {
-              label:"RMSE Horizontal",
-              data:state.trafficData.map(v=>v.Avg_RMSE_Horiz_m),
-              borderColor:colors.blue,
-              backgroundColor:colors.blue,
-              yAxisID:"y1",
-              tension:.2
+              label: "RMSE Horizontal",
+              data: state.trafficData.map(v => v.Avg_RMSE_Horiz_m),
+              borderColor: colors.blue,
+              backgroundColor: colors.blue,
+              yAxisID: "y1",
+              tension: 0.2
             },
             {
-              label:"RMSE Vertikal",
-              data:state.trafficData.map(v=>v.Avg_RMSE_Vert_m),
-              borderColor:colors.red,
-              backgroundColor:colors.red,
-              yAxisID:"y1",
-              tension:.2
+              label: "RMSE Vertikal",
+              data: state.trafficData.map(v => v.Avg_RMSE_Vert_m),
+              borderColor: colors.red,
+              backgroundColor: colors.red,
+              yAxisID: "y1",
+              tension: 0.2
             }
           ]
         },
-        options:{
-          responsive:true,
-          maintainAspectRatio:false,
-          animation:false,
-          plugins:{ legend:{ position:"bottom" } },
-          scales:{
-            y:{ position:"left", title:{ display:true, text:"Total Kendaraan" } },
-            y1:{ position:"right", grid:{ drawOnChartArea:false }, title:{ display:true, text:"RMSE (m)" } }
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: false,
+          plugins: { legend: { position: "bottom" } },
+          scales: {
+            y: { position: "left", title: { display: true, text: "Total Kendaraan" } },
+            y1: { position: "right", grid: { drawOnChartArea: false }, title: { display: true, text: "RMSE (m)" } }
           }
         }
       });
@@ -2002,47 +2220,47 @@
 
       const key = state.selectedTrafficParam;
       const relation = state.trafficRelations.find(v => v.key === key);
-      const points = state.trafficData.map(v => ({ x:v.Total_1Jam, y:v[key] }));
+      const points = state.trafficData.map(v => ({ x: v.Total_1Jam, y: v[key] }));
       const xs = state.trafficData.map(v => v.Total_1Jam);
       const minX = Math.min(...xs);
       const maxX = Math.max(...xs);
 
       const regLine = relation ? [
-        { x:minX, y:relation.slope*minX + relation.intersep },
-        { x:maxX, y:relation.slope*maxX + relation.intersep }
+        { x: minX, y: relation.slope * minX + relation.intersep },
+        { x: maxX, y: relation.slope * maxX + relation.intersep }
       ] : [];
 
       document.getElementById("trafficScatterTitle").textContent = `Total_1Jam vs ${key}`;
 
       trafficScatterChart = new Chart(ctx, {
-        type:"scatter",
-        data:{
-          datasets:[
+        type: "scatter",
+        data: {
+          datasets: [
             {
-              label:"Data",
-              data:points,
-              backgroundColor:colors.blue,
-              pointRadius:4
+              label: "Data",
+              data: points,
+              backgroundColor: colors.blue,
+              pointRadius: 4
             },
             {
-              label:"Regresi",
-              data:regLine,
-              type:"line",
-              borderColor:colors.red,
-              backgroundColor:colors.red,
-              pointRadius:0,
-              borderWidth:2
+              label: "Regresi",
+              data: regLine,
+              type: "line",
+              borderColor: colors.red,
+              backgroundColor: colors.red,
+              pointRadius: 0,
+              borderWidth: 2
             }
           ]
         },
-        options:{
-          responsive:true,
-          maintainAspectRatio:false,
-          animation:false,
-          plugins:{ legend:{ position:"bottom" } },
-          scales:{
-            x:{ title:{ display:true, text:"Total Kendaraan 1 Jam" } },
-            y:{ title:{ display:true, text:key } }
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: false,
+          plugins: { legend: { position: "bottom" } },
+          scales: {
+            x: { title: { display: true, text: "Total Kendaraan 1 Jam" } },
+            y: { title: { display: true, text: key } }
           }
         }
       });
@@ -2053,16 +2271,16 @@
       const data = state.trafficData;
       if (!rels.length || !data.length) return;
 
-      const strongest = rels.reduce((a,b)=>Math.abs(a.r) > Math.abs(b.r) ? a : b);
-      const weakest = rels.reduce((a,b)=>Math.abs(a.r) < Math.abs(b.r) ? a : b);
-      const peak = data.reduce((a,b)=>a.Total_1Jam > b.Total_1Jam ? a : b);
-      const low = data.reduce((a,b)=>a.Total_1Jam < b.Total_1Jam ? a : b);
+      const strongest = rels.reduce((a, b) => Math.abs(a.r) > Math.abs(b.r) ? a : b);
+      const weakest = rels.reduce((a, b) => Math.abs(a.r) < Math.abs(b.r) ? a : b);
+      const peak = data.reduce((a, b) => a.Total_1Jam > b.Total_1Jam ? a : b);
+      const low = data.reduce((a, b) => a.Total_1Jam < b.Total_1Jam ? a : b);
 
       document.getElementById("trafficAnalysisText").innerHTML = `
         <ul>
           <li>Traffic tertinggi terjadi pada <strong>${peak.Hari}</strong> dengan total <strong>${formatInt(peak.Total_1Jam)}</strong> kendaraan, sedangkan traffic terendah terjadi pada <strong>${low.Hari}</strong> dengan total <strong>${formatInt(low.Total_1Jam)}</strong> kendaraan.</li>
-          <li>Korelasi terkuat terdapat pada parameter <strong>${strongest.parameter}</strong> dengan nilai <strong>r = ${formatNum(strongest.r,3)}</strong>, arah hubungan <strong>${strongest.arah.toLowerCase()}</strong>, dan kekuatan hubungan <strong>${strongest.kekuatan.toLowerCase()}</strong>.</li>
-          <li>Korelasi paling lemah terdapat pada parameter <strong>${weakest.parameter}</strong> dengan nilai <strong>r = ${formatNum(weakest.r,3)}</strong>.</li>
+          <li>Korelasi terkuat terdapat pada parameter <strong>${strongest.parameter}</strong> dengan nilai <strong>r = ${formatNum(strongest.r, 3)}</strong>, arah hubungan <strong>${strongest.arah.toLowerCase()}</strong>, dan kekuatan hubungan <strong>${strongest.kekuatan.toLowerCase()}</strong>.</li>
+          <li>Korelasi paling lemah terdapat pada parameter <strong>${weakest.parameter}</strong> dengan nilai <strong>r = ${formatNum(weakest.r, 3)}</strong>.</li>
           <li>Secara umum, analisa ini dapat dipakai untuk melihat apakah peningkatan jumlah kendaraan berasosiasi dengan perubahan kualitas pengamatan GNSS, terutama pada parameter dengan |r| dan R² yang lebih besar.</li>
         </ul>
       `;
@@ -2076,35 +2294,35 @@
           <td>${formatInt(v.Truck_1Jam)}</td>
           <td>${formatInt(v.Motor_1Jam)}</td>
           <td>${formatInt(v.Total_1Jam)}</td>
-          <td>${formatNum(v.Avg_RMSE_Horiz_m,3)}</td>
-          <td>${formatNum(v.Avg_RMSE_Vert_m,3)}</td>
-          <td>${formatNum(v.Avg_RMSE_Lat_m,3)}</td>
-          <td>${formatNum(v.Avg_RMSE_Long_m,3)}</td>
+          <td>${formatNum(v.Avg_RMSE_Horiz_m, 3)}</td>
+          <td>${formatNum(v.Avg_RMSE_Vert_m, 3)}</td>
+          <td>${formatNum(v.Avg_RMSE_Lat_m, 3)}</td>
+          <td>${formatNum(v.Avg_RMSE_Long_m, 3)}</td>
         </tr>
       `).join("");
 
       document.getElementById("trafficRelationTable").innerHTML = state.trafficRelations.map(v => `
         <tr>
           <td>${v.parameter}</td>
-          <td>${formatNum(v.r,3)}</td>
+          <td>${formatNum(v.r, 3)}</td>
           <td>${v.arah}</td>
           <td>${v.kekuatan}</td>
-          <td>${formatNum(v.slope,6)}</td>
-          <td>${formatNum(v.intersep,6)}</td>
-          <td>${formatNum(v.r2,3)}</td>
+          <td>${formatNum(v.slope, 6)}</td>
+          <td>${formatNum(v.intersep, 6)}</td>
+          <td>${formatNum(v.r2, 3)}</td>
         </tr>
       `).join("");
 
       document.getElementById("trafficDescTable").innerHTML = state.trafficDesc.map(v => `
         <tr>
           <td>${v.parameter}</td>
-          <td>${formatNum(v.mean,3)}</td>
-          <td>${formatNum(v.sd,3)}</td>
-          <td>${formatNum(v.min,3)}</td>
+          <td>${formatNum(v.mean, 3)}</td>
+          <td>${formatNum(v.sd, 3)}</td>
+          <td>${formatNum(v.min, 3)}</td>
           <td>${v.minDay}</td>
-          <td>${formatNum(v.max,3)}</td>
+          <td>${formatNum(v.max, 3)}</td>
           <td>${v.maxDay}</td>
-          <td>${formatNum(v.cv,2)}</td>
+          <td>${formatNum(v.cv, 2)}</td>
         </tr>
       `).join("");
     }
@@ -2157,6 +2375,50 @@
       });
     }
 
+    function initActiveNav() {
+      const sections = document.querySelectorAll("section[id]");
+      const navLinks = document.querySelectorAll(".nav-menu a");
+
+      function updateActiveLink() {
+        let current = "";
+        sections.forEach(section => {
+          const top = window.scrollY;
+          const offset = section.offsetTop - 130;
+          const height = section.offsetHeight;
+          if (top >= offset && top < offset + height) {
+            current = section.getAttribute("id");
+          }
+        });
+
+        navLinks.forEach(link => {
+          link.classList.remove("active-link");
+          if (link.getAttribute("href") === `#${current}`) {
+            link.classList.add("active-link");
+          }
+        });
+      }
+
+      window.addEventListener("scroll", updateActiveLink);
+      updateActiveLink();
+    }
+
+    function initTopButton() {
+      const btn = document.getElementById("topBtn");
+      if (!btn) return;
+
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 400) {
+          btn.classList.add("show");
+        } else {
+          btn.classList.remove("show");
+        }
+      });
+
+      btn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    }
+
     function initMap() {
       const map = L.map("map").setView([-7.157, 112.782], 14);
 
@@ -2183,7 +2445,7 @@
         "CartoDB Light": carto
       };
 
-      L.control.layers(baseMaps, null, { collapsed:false }).addTo(map);
+      L.control.layers(baseMaps, null, { collapsed: false }).addTo(map);
 
       bmPoints.forEach(p => {
         L.marker([p.lat, p.lon]).addTo(map).bindPopup(
@@ -2197,9 +2459,19 @@
       });
     }
 
+    function addFadeInEffects() {
+      const targets = document.querySelectorAll(".fade-in");
+      targets.forEach((el, i) => {
+        el.style.animationDelay = `${Math.min(i * 0.04, 0.28)}s`;
+      });
+    }
+
     initButtons();
     initMobileMenu();
+    initActiveNav();
+    initTopButton();
     initMap();
+    addFadeInEffects();
     loadBMData();
     loadTrafficData();
   </script>
