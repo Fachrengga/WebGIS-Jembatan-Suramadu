@@ -21,27 +21,25 @@
       --line:#d9e4ee;
       --white:#ffffff;
 
-      --dark-bg-1:#102a43;
-      --dark-bg-2:#163a5a;
-      --dark-bg-3:#214f75;
+      --dark-bg-1:#0d2238;
+      --dark-bg-2:#163754;
+      --dark-bg-3:#22557b;
       --dark-card:#15324c;
-      --dark-card-2:#1d4264;
       --dark-line:rgba(255,255,255,.10);
       --dark-text:#f5fbff;
-      --dark-muted:rgba(255,255,255,.78);
+      --dark-muted:rgba(255,255,255,.80);
 
       --light-bg-1:#f7fbff;
-      --light-bg-2:#eef6fb;
-      --light-bg-3:#e9f4fb;
+      --light-bg-2:#edf5fb;
+      --light-bg-3:#e8f2f8;
       --light-card:#ffffff;
-      --light-card-2:#f7fbfe;
 
       --success:#1f8f63;
       --warn:#d08a2e;
       --danger:#c55b4d;
 
       --shadow:0 10px 28px rgba(18,50,76,.08);
-      --shadow-soft:0 18px 40px rgba(18,50,76,.12);
+      --shadow-soft:0 18px 40px rgba(18,50,76,.14);
       --radius:24px;
     }
 
@@ -204,7 +202,7 @@
     }
 
     .section-light .section-card{
-      background:linear-gradient(180deg, rgba(255,255,255,.95) 0%, rgba(247,251,254,.96) 100%);
+      background:linear-gradient(180deg, rgba(255,255,255,.96) 0%, rgba(247,251,254,.97) 100%);
       border:1px solid rgba(15,39,64,.08);
       color:var(--ink);
     }
@@ -395,7 +393,7 @@
       z-index:1;
     }
 
-    .feature, .kpi, .panel, .table-card, .download-block, .timeline-item{
+    .feature, .kpi, .download-block, .timeline-item{
       border-radius:22px;
       padding:22px;
       transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
@@ -403,8 +401,6 @@
 
     .section-light .feature,
     .section-light .kpi,
-    .section-light .panel,
-    .section-light .table-card,
     .section-light .download-block,
     .section-light .timeline-item{
       background:linear-gradient(180deg, #ffffff 0%, #f7fbfe 100%);
@@ -414,8 +410,6 @@
 
     .section-dark .feature,
     .section-dark .kpi,
-    .section-dark .panel,
-    .section-dark .table-card,
     .section-dark .download-block,
     .section-dark .timeline-item{
       background:linear-gradient(180deg, rgba(255,255,255,.08) 0%, rgba(255,255,255,.06) 100%);
@@ -423,12 +417,27 @@
       box-shadow:0 8px 18px rgba(0,0,0,.10);
     }
 
+    /* PANEL GRAFIK DAN TABEL SELALU TERANG */
+    .panel,
+    .table-card{
+      background:linear-gradient(180deg, #ffffff 0%, #f7fbfe 100%) !important;
+      border:1px solid #d9e4ee !important;
+      border-radius:22px;
+      padding:22px;
+      box-shadow:0 8px 18px rgba(0,0,0,.05) !important;
+      color:var(--ink) !important;
+      margin-bottom:18px;
+      position:relative;
+      z-index:1;
+      transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+
     .feature:hover,
     .kpi:hover,
-    .panel:hover,
-    .table-card:hover,
     .download-block:hover,
-    .timeline-item:hover{
+    .timeline-item:hover,
+    .panel:hover,
+    .table-card:hover{
       transform:translateY(-4px);
       box-shadow:var(--shadow-soft);
     }
@@ -455,24 +464,25 @@
       color:#fff;
     }
 
-    .feature h3, .panel h3, .table-card h3, .download-block h3{
+    .feature h3, .download-block h3, .panel h3, .table-card h3{
       font-size:24px;
       margin-bottom:10px;
       line-height:1.2;
     }
 
     .section-light .feature h3,
-    .section-light .panel h3,
-    .section-light .table-card h3,
     .section-light .download-block h3{
       color:var(--navy);
     }
 
     .section-dark .feature h3,
-    .section-dark .panel h3,
-    .section-dark .table-card h3,
     .section-dark .download-block h3{
       color:#fff;
+    }
+
+    .panel h3,
+    .table-card h3{
+      color:var(--navy) !important;
     }
 
     .section-light .feature p,
@@ -667,13 +677,9 @@
       font-size:13px;
     }
 
-    .stable{ background:rgba(31,143,99,.14); color:#a7f0cd; }
-    .watch{ background:rgba(208,138,46,.16); color:#ffd89a; }
-    .alert{ background:rgba(197,91,77,.16); color:#ffc2b8; }
-
-    .section-light .stable{ color:var(--success); background:rgba(31,143,99,.12); }
-    .section-light .watch{ color:var(--warn); background:rgba(208,138,46,.14); }
-    .section-light .alert{ color:var(--danger); background:rgba(197,91,77,.12); }
+    .stable{ background:rgba(31,143,99,.14); color:var(--success); }
+    .watch{ background:rgba(208,138,46,.14); color:var(--warn); }
+    .alert{ background:rgba(197,91,77,.12); color:var(--danger); }
 
     .toolbar{
       display:flex;
@@ -693,14 +699,10 @@
       transition:.2s;
     }
 
-    .section-light .toolbar button{
+    .section-light .toolbar button,
+    .section-dark .toolbar button{
       background:linear-gradient(135deg, #dcecf7, #cfe2f1);
       color:var(--blue);
-    }
-
-    .section-dark .toolbar button{
-      background:rgba(255,255,255,.12);
-      color:#fff;
     }
 
     .toolbar button.active,
@@ -709,44 +711,21 @@
       color:#fff !important;
     }
 
-    .panel{
-      margin-bottom:18px;
-      position:relative;
-      z-index:1;
-    }
-
     .panel .sub{
       font-size:14px;
       margin-bottom:14px;
       padding:10px 12px;
       border-radius:12px;
-    }
-
-    .section-light .panel .sub{
-      color:var(--muted);
-      background:linear-gradient(135deg, #f5f9fc, #edf5fb);
-      border:1px solid #e0eaf2;
-    }
-
-    .section-dark .panel .sub{
-      color:#dcecf7;
-      background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.10);
+      color:var(--muted) !important;
+      background:linear-gradient(135deg, #f5f9fc, #edf5fb) !important;
+      border:1px solid #e0eaf2 !important;
     }
 
     .chart-box{
+      background:linear-gradient(180deg, #f8fbfd 0%, #f1f6fa 100%) !important;
+      border:1px solid #dce5ec !important;
       border-radius:18px;
       padding:10px;
-    }
-
-    .section-light .chart-box{
-      background:linear-gradient(180deg, #f7fafc 0%, #f1f6fa 100%);
-      border:1px solid #dce5ec;
-    }
-
-    .section-dark .chart-box{
-      background:rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.08);
     }
 
     .chart-shell{
@@ -775,14 +754,7 @@
     .analysis-box ul{
       padding-left:18px;
       line-height:1.95;
-    }
-
-    .section-light .analysis-box ul{
-      color:#42515d;
-    }
-
-    .section-dark .analysis-box ul{
-      color:#e5f2fb;
+      color:#42515d !important;
     }
 
     .analysis-box li{
@@ -850,34 +822,21 @@
       transform:translateY(-2px);
     }
 
-    .table-card{
-      margin-bottom:18px;
-      position:relative;
-      z-index:1;
-    }
-
     .table-scroll{
       width:100%;
       overflow-x:auto;
       overflow-y:hidden;
       border-radius:16px;
+      border:1px solid #dde7ef !important;
+      background:#fff !important;
       -webkit-overflow-scrolling:touch;
-    }
-
-    .section-light .table-scroll{
-      border:1px solid #dde7ef;
-      background:#fff;
-    }
-
-    .section-dark .table-scroll{
-      border:1px solid rgba(255,255,255,.10);
-      background:rgba(255,255,255,.04);
     }
 
     table{
       width:100%;
       min-width:860px;
       border-collapse:collapse;
+      background:#fff !important;
     }
 
     table.wide{
@@ -894,26 +853,12 @@
       text-align:left;
       font-size:13px;
       white-space:nowrap;
+      border-bottom:1px solid #edf2f6 !important;
+      color:#243646 !important;
     }
 
-    .section-light th, .section-light td{
-      border-bottom:1px solid #edf2f6;
-    }
-
-    .section-dark th, .section-dark td{
-      border-bottom:1px solid rgba(255,255,255,.08);
-    }
-
-    .section-light tbody tr:nth-child(even){
-      background:#f8fbfd;
-    }
-
-    .section-dark tbody tr:nth-child(even){
-      background:rgba(255,255,255,.04);
-    }
-
-    .section-dark tbody tr{
-      color:#eef8ff;
+    tbody tr:nth-child(even){
+      background:#f8fbfd !important;
     }
 
     footer{
@@ -1633,6 +1578,9 @@
     const BM_FILE = "./Hasil_Analisa_Perhitungan.xlsx";
     const TRAFFIC_FILE = "./Hasil_Analisa_Traffic.xlsx";
 
+    const chartTextColor = "#42515d";
+    const chartGridColor = "rgba(0,0,0,0.08)";
+
     const colors = {
       n: "#d95f02",
       e: "#9aa0a6",
@@ -1992,10 +1940,7 @@
       const bmKeys = Object.keys(state.bmSummary || {});
       const bmStats = bmKeys.map(bm => {
         const arr = state.bmSummary[bm] || [];
-        return {
-          bm,
-          avgVert: arr.length ? mean(arr.map(v => v.rmseHeightTrimble)) : Infinity
-        };
+        return { bm, avgVert: arr.length ? mean(arr.map(v => v.rmseHeightTrimble)) : Infinity };
       }).filter(v => isFinite(v.avgVert));
 
       if (bmStats.length) {
@@ -2020,10 +1965,7 @@
       const bmKeys = Object.keys(state.bmSummary || {});
       const bmStats = bmKeys.map(bm => {
         const arr = state.bmSummary[bm] || [];
-        return {
-          bm,
-          avgVert: arr.length ? mean(arr.map(v => v.rmseHeightTrimble)) : Infinity
-        };
+        return { bm, avgVert: arr.length ? mean(arr.map(v => v.rmseHeightTrimble)) : Infinity };
       }).filter(v => isFinite(v.avgVert));
 
       const stable = bmStats.length ? bmStats.reduce((a, b) => a.avgVert < b.avgVert ? a : b) : null;
@@ -2051,10 +1993,7 @@
       const bmKeys = Object.keys(state.bmSummary || {});
       const bmStats = bmKeys.map(bm => {
         const arr = state.bmSummary[bm] || [];
-        return {
-          bm,
-          avgVert: arr.length ? mean(arr.map(v => v.rmseHeightTrimble)) : Infinity
-        };
+        return { bm, avgVert: arr.length ? mean(arr.map(v => v.rmseHeightTrimble)) : Infinity };
       }).filter(v => isFinite(v.avgVert));
 
       const stable = bmStats.length ? bmStats.reduce((a, b) => a.avgVert < b.avgVert ? a : b) : null;
@@ -2148,10 +2087,24 @@
           responsive: true,
           maintainAspectRatio: false,
           animation: false,
-          plugins: { legend: { position: "bottom", labels: { color: getComputedStyle(document.body).getPropertyValue('--ink') } } },
+          plugins: {
+            legend: {
+              position: "bottom",
+              labels: { color: chartTextColor }
+            }
+          },
           scales: {
-            y: { beginAtZero: true, title: { display: true, text: "Meter" } },
-            x: { grid: { display: false } }
+            x: {
+              ticks: { color: chartTextColor },
+              grid: { display: false },
+              title: { display: false }
+            },
+            y: {
+              beginAtZero: true,
+              ticks: { color: chartTextColor },
+              grid: { color: chartGridColor },
+              title: { display: true, text: "Meter", color: chartTextColor }
+            }
           }
         }
       });
@@ -2191,10 +2144,21 @@
           responsive: true,
           maintainAspectRatio: false,
           animation: false,
-          plugins: { legend: { display: false } },
+          plugins: {
+            legend: { display: false }
+          },
           scales: {
-            x: { type: "linear", title: { display: true, text: "Epoch" } },
-            y: { title: { display: true, text: "ΔU (m)" } }
+            x: {
+              type: "linear",
+              ticks: { color: chartTextColor },
+              grid: { color: chartGridColor },
+              title: { display: true, text: "Epoch", color: chartTextColor }
+            },
+            y: {
+              ticks: { color: chartTextColor },
+              grid: { color: chartGridColor },
+              title: { display: true, text: "ΔU (m)", color: chartTextColor }
+            }
           }
         }
       });
@@ -2222,10 +2186,24 @@
           responsive: true,
           maintainAspectRatio: false,
           animation: false,
-          plugins: { legend: { display: false } },
+          plugins: {
+            legend: { display: false }
+          },
           scales: {
-            x: { min: -1, max: 1, title: { display: true, text: "ΔE (m)" } },
-            y: { min: -1, max: 1, title: { display: true, text: "ΔN (m)" } }
+            x: {
+              min: -1,
+              max: 1,
+              ticks: { color: chartTextColor },
+              grid: { color: chartGridColor },
+              title: { display: true, text: "ΔE (m)", color: chartTextColor }
+            },
+            y: {
+              min: -1,
+              max: 1,
+              ticks: { color: chartTextColor },
+              grid: { color: chartGridColor },
+              title: { display: true, text: "ΔN (m)", color: chartTextColor }
+            }
           }
         }
       });
@@ -2337,10 +2315,24 @@
           responsive: true,
           maintainAspectRatio: false,
           animation: false,
-          plugins: { legend: { position: "bottom" } },
+          plugins: {
+            legend: {
+              position: "bottom",
+              labels: { color: chartTextColor }
+            }
+          },
           scales: {
-            x: { stacked: true },
-            y: { stacked: true, title: { display: true, text: "Jumlah Kendaraan" } }
+            x: {
+              stacked: true,
+              ticks: { color: chartTextColor },
+              grid: { color: chartGridColor }
+            },
+            y: {
+              stacked: true,
+              ticks: { color: chartTextColor },
+              grid: { color: chartGridColor },
+              title: { display: true, text: "Jumlah Kendaraan", color: chartTextColor }
+            }
           }
         }
       });
@@ -2387,10 +2379,29 @@
           responsive: true,
           maintainAspectRatio: false,
           animation: false,
-          plugins: { legend: { position: "bottom" } },
+          plugins: {
+            legend: {
+              position: "bottom",
+              labels: { color: chartTextColor }
+            }
+          },
           scales: {
-            y: { position: "left", title: { display: true, text: "Total Kendaraan" } },
-            y1: { position: "right", grid: { drawOnChartArea: false }, title: { display: true, text: "RMSE (m)" } }
+            x: {
+              ticks: { color: chartTextColor },
+              grid: { color: chartGridColor }
+            },
+            y: {
+              position: "left",
+              ticks: { color: chartTextColor },
+              grid: { color: chartGridColor },
+              title: { display: true, text: "Total Kendaraan", color: chartTextColor }
+            },
+            y1: {
+              position: "right",
+              ticks: { color: chartTextColor },
+              grid: { drawOnChartArea: false },
+              title: { display: true, text: "RMSE (m)", color: chartTextColor }
+            }
           }
         }
       });
@@ -2439,10 +2450,23 @@
           responsive: true,
           maintainAspectRatio: false,
           animation: false,
-          plugins: { legend: { position: "bottom" } },
+          plugins: {
+            legend: {
+              position: "bottom",
+              labels: { color: chartTextColor }
+            }
+          },
           scales: {
-            x: { title: { display: true, text: "Total Kendaraan 1 Jam" } },
-            y: { title: { display: true, text: key } }
+            x: {
+              ticks: { color: chartTextColor },
+              grid: { color: chartGridColor },
+              title: { display: true, text: "Total Kendaraan 1 Jam", color: chartTextColor }
+            },
+            y: {
+              ticks: { color: chartTextColor },
+              grid: { color: chartGridColor },
+              title: { display: true, text: key, color: chartTextColor }
+            }
           }
         }
       });
