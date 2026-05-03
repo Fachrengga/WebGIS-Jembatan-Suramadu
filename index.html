@@ -9,24 +9,39 @@
 
   <style>
     :root{
-      --navy:#12324c;
-      --navy-2:#1d4f73;
-      --blue:#2e6f95;
-      --blue-soft:#dcecf7;
+      --navy:#0f2740;
+      --navy-2:#173a5c;
+      --navy-3:#1f4f7a;
+      --blue:#2f6d96;
+      --blue-soft:#d9ebf6;
       --sky:#eef7fc;
-      --sky-2:#e6f2fb;
-      --teal:#5fa8a3;
-      --mint:#dff3ef;
-      --slate:#f5f8fb;
+      --sky-2:#e2f0fa;
+      --ink:#1f2f3d;
+      --muted:#6b7b88;
+      --line:#d9e4ee;
       --white:#ffffff;
-      --line:#d7e3ee;
-      --text:#243646;
-      --muted:#667786;
+
+      --dark-bg-1:#102a43;
+      --dark-bg-2:#163a5a;
+      --dark-bg-3:#214f75;
+      --dark-card:#15324c;
+      --dark-card-2:#1d4264;
+      --dark-line:rgba(255,255,255,.10);
+      --dark-text:#f5fbff;
+      --dark-muted:rgba(255,255,255,.78);
+
+      --light-bg-1:#f7fbff;
+      --light-bg-2:#eef6fb;
+      --light-bg-3:#e9f4fb;
+      --light-card:#ffffff;
+      --light-card-2:#f7fbfe;
+
       --success:#1f8f63;
       --warn:#d08a2e;
       --danger:#c55b4d;
+
       --shadow:0 10px 28px rgba(18,50,76,.08);
-      --shadow-soft:0 18px 40px rgba(18,50,76,.10);
+      --shadow-soft:0 18px 40px rgba(18,50,76,.12);
       --radius:24px;
     }
 
@@ -43,11 +58,8 @@
     }
 
     body{
-      color:var(--text);
-      background:
-        radial-gradient(circle at top left, rgba(95,168,163,.10) 0%, transparent 22%),
-        radial-gradient(circle at top right, rgba(46,111,149,.08) 0%, transparent 20%),
-        linear-gradient(180deg, #f7fbff 0%, #eef6fb 45%, #f6fbfd 100%);
+      color:var(--ink);
+      background:linear-gradient(180deg, #f6fbff 0%, #edf5fb 100%);
     }
 
     a{
@@ -56,8 +68,8 @@
     }
 
     section{
-      scroll-margin-top:100px;
-      padding:90px 20px 42px;
+      scroll-margin-top:95px;
+      padding:78px 20px 36px;
       display:flex;
       justify-content:center;
     }
@@ -73,9 +85,9 @@
       left:0;
       width:100%;
       z-index:999;
-      background:rgba(255,255,255,.94);
+      background:rgba(255,255,255,.95);
       backdrop-filter:blur(10px);
-      border-bottom:1px solid rgba(18,50,76,.08);
+      border-bottom:1px solid rgba(15,39,64,.08);
       box-shadow:0 6px 18px rgba(0,0,0,.05);
     }
 
@@ -100,7 +112,7 @@
       width:56px;
       height:56px;
       border-radius:16px;
-      background:linear-gradient(135deg, #15334f, #2f6b90);
+      background:linear-gradient(135deg, #14324a, #2b6c97);
       display:flex;
       align-items:center;
       justify-content:center;
@@ -161,21 +173,64 @@
 
     .nav-menu li a:hover,
     .nav-menu li a.active-link{
-      background:var(--navy-2);
+      background:var(--navy-3);
       color:#fff;
     }
 
-    .hero{
+    .section-dark{
       background:
-        radial-gradient(circle at bottom left, rgba(255,255,255,.10) 0%, transparent 18%),
-        radial-gradient(circle at top right, rgba(255,255,255,.10) 0%, transparent 16%),
-        linear-gradient(135deg, #14324a 0%, #21537e 55%, #2e6f95 100%);
-      color:#fff;
-      border-radius:32px;
-      padding:38px;
-      box-shadow:0 26px 52px rgba(18,50,76,.18);
+        radial-gradient(circle at top left, rgba(255,255,255,.05) 0%, transparent 20%),
+        linear-gradient(135deg, var(--dark-bg-1) 0%, var(--dark-bg-2) 55%, var(--dark-bg-3) 100%);
+    }
+
+    .section-light{
+      background:
+        radial-gradient(circle at top right, rgba(47,109,150,.08) 0%, transparent 18%),
+        linear-gradient(180deg, var(--light-bg-1) 0%, var(--light-bg-2) 100%);
+    }
+
+    .section-card{
+      border-radius:30px;
+      padding:26px;
       position:relative;
       overflow:hidden;
+      box-shadow:var(--shadow-soft);
+    }
+
+    .section-dark .section-card{
+      background:linear-gradient(180deg, rgba(255,255,255,.07) 0%, rgba(255,255,255,.05) 100%);
+      border:1px solid rgba(255,255,255,.10);
+      color:var(--dark-text);
+    }
+
+    .section-light .section-card{
+      background:linear-gradient(180deg, rgba(255,255,255,.95) 0%, rgba(247,251,254,.96) 100%);
+      border:1px solid rgba(15,39,64,.08);
+      color:var(--ink);
+    }
+
+    .section-card::after{
+      content:"";
+      position:absolute;
+      top:0;
+      right:0;
+      width:150px;
+      height:150px;
+      background:radial-gradient(circle, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 70%);
+      pointer-events:none;
+    }
+
+    .hero{
+      border-radius:32px;
+      padding:38px;
+      position:relative;
+      overflow:hidden;
+      box-shadow:0 26px 52px rgba(18,50,76,.20);
+      background:
+        radial-gradient(circle at bottom left, rgba(255,255,255,.08) 0%, transparent 18%),
+        radial-gradient(circle at top right, rgba(255,255,255,.10) 0%, transparent 16%),
+        linear-gradient(135deg, #102a43 0%, #173a5c 55%, #2b6c97 100%);
+      color:#fff;
     }
 
     .hero-grid{
@@ -189,12 +244,23 @@
       display:inline-block;
       padding:8px 14px;
       border-radius:999px;
-      background:rgba(255,255,255,.14);
       font-size:12px;
       font-weight:800;
       text-transform:uppercase;
       letter-spacing:.8px;
       margin-bottom:14px;
+    }
+
+    .section-dark .eyebrow,
+    .hero .eyebrow{
+      background:rgba(255,255,255,.14);
+      color:#fff;
+    }
+
+    .section-light .eyebrow{
+      background:linear-gradient(135deg, #edf5fb, #dcecf7);
+      color:var(--blue);
+      box-shadow:inset 0 0 0 1px rgba(33,83,126,.08);
     }
 
     .hero h2{
@@ -287,56 +353,36 @@
       color:rgba(255,255,255,.88);
     }
 
-    .section-card{
-      background:linear-gradient(180deg, rgba(255,255,255,.94) 0%, rgba(248,252,255,.94) 100%);
-      border:1px solid rgba(18,50,76,.08);
-      border-radius:28px;
-      box-shadow:var(--shadow);
-      padding:26px;
-      position:relative;
-      overflow:hidden;
-    }
-
-    .section-card::after{
-      content:"";
-      position:absolute;
-      top:0;
-      right:0;
-      width:140px;
-      height:140px;
-      background:radial-gradient(circle, rgba(46,111,149,.08) 0%, rgba(46,111,149,0) 70%);
-      pointer-events:none;
-    }
-
     .section-header{
       position:relative;
       z-index:1;
       margin-bottom:20px;
     }
 
-    .section-label{
-      display:inline-block;
-      padding:8px 14px;
-      background:linear-gradient(135deg, #edf5fb, #dcecf7);
-      color:var(--blue);
-      border-radius:999px;
-      font-size:12px;
-      font-weight:800;
-      text-transform:uppercase;
-      margin-bottom:12px;
-      box-shadow:inset 0 0 0 1px rgba(33,83,126,.08);
-    }
-
     .section-header h2{
       font-size:38px;
-      color:var(--navy);
-      margin-bottom:12px;
       line-height:1.2;
+      margin-bottom:12px;
+    }
+
+    .section-dark .section-header h2{
+      color:#fff;
+    }
+
+    .section-light .section-header h2{
+      color:var(--navy);
     }
 
     .section-header p{
       font-size:16px;
       line-height:1.9;
+    }
+
+    .section-dark .section-header p{
+      color:var(--dark-muted);
+    }
+
+    .section-light .section-header p{
       color:#465765;
     }
 
@@ -350,12 +396,31 @@
     }
 
     .feature, .kpi, .panel, .table-card, .download-block, .timeline-item{
-      background:linear-gradient(180deg, #ffffff 0%, #f7fbfe 100%);
-      border:1px solid var(--line);
       border-radius:22px;
       padding:22px;
-      box-shadow:0 8px 18px rgba(0,0,0,.04);
       transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+
+    .section-light .feature,
+    .section-light .kpi,
+    .section-light .panel,
+    .section-light .table-card,
+    .section-light .download-block,
+    .section-light .timeline-item{
+      background:linear-gradient(180deg, #ffffff 0%, #f7fbfe 100%);
+      border:1px solid var(--line);
+      box-shadow:0 8px 18px rgba(0,0,0,.04);
+    }
+
+    .section-dark .feature,
+    .section-dark .kpi,
+    .section-dark .panel,
+    .section-dark .table-card,
+    .section-dark .download-block,
+    .section-dark .timeline-item{
+      background:linear-gradient(180deg, rgba(255,255,255,.08) 0%, rgba(255,255,255,.06) 100%);
+      border:1px solid var(--dark-line);
+      box-shadow:0 8px 18px rgba(0,0,0,.10);
     }
 
     .feature:hover,
@@ -366,15 +431,12 @@
     .timeline-item:hover{
       transform:translateY(-4px);
       box-shadow:var(--shadow-soft);
-      border-color:rgba(46,111,149,.18);
     }
 
     .feature .icon{
       width:50px;
       height:50px;
       border-radius:16px;
-      background:linear-gradient(135deg, #eaf4fb, #d8ebf8);
-      color:var(--navy-2);
       display:flex;
       align-items:center;
       justify-content:center;
@@ -383,16 +445,46 @@
       font-size:22px;
     }
 
+    .section-light .feature .icon{
+      background:linear-gradient(135deg, #eaf4fb, #d8ebf8);
+      color:var(--navy-3);
+    }
+
+    .section-dark .feature .icon{
+      background:rgba(255,255,255,.14);
+      color:#fff;
+    }
+
     .feature h3, .panel h3, .table-card h3, .download-block h3{
       font-size:24px;
       margin-bottom:10px;
-      color:var(--navy);
       line-height:1.2;
     }
 
-    .feature p, .download-block p{
-      line-height:1.85;
+    .section-light .feature h3,
+    .section-light .panel h3,
+    .section-light .table-card h3,
+    .section-light .download-block h3{
+      color:var(--navy);
+    }
+
+    .section-dark .feature h3,
+    .section-dark .panel h3,
+    .section-dark .table-card h3,
+    .section-dark .download-block h3{
+      color:#fff;
+    }
+
+    .section-light .feature p,
+    .section-light .download-block p{
       color:#51616d;
+      line-height:1.85;
+    }
+
+    .section-dark .feature p,
+    .section-dark .download-block p{
+      color:var(--dark-muted);
+      line-height:1.85;
     }
 
     .timeline{
@@ -410,8 +502,6 @@
     }
 
     .timeline-year{
-      background:linear-gradient(135deg, #edf5fb, #d9ebf8);
-      color:var(--blue);
       border-radius:18px;
       padding:16px;
       text-align:center;
@@ -420,15 +510,37 @@
       height:max-content;
     }
 
+    .section-light .timeline-year{
+      background:linear-gradient(135deg, #edf5fb, #d9ebf8);
+      color:var(--blue);
+    }
+
+    .section-dark .timeline-year{
+      background:rgba(255,255,255,.12);
+      color:#fff;
+    }
+
     .timeline-content h3{
       font-size:22px;
       margin-bottom:8px;
+    }
+
+    .section-light .timeline-content h3{
       color:var(--navy);
     }
 
-    .timeline-content p{
-      line-height:1.8;
+    .section-dark .timeline-content h3{
+      color:#fff;
+    }
+
+    .section-light .timeline-content p{
       color:#50606c;
+      line-height:1.8;
+    }
+
+    .section-dark .timeline-content p{
+      color:var(--dark-muted);
+      line-height:1.8;
     }
 
     .map-box{
@@ -439,6 +551,7 @@
       box-shadow:0 10px 24px rgba(0,0,0,.08);
       position:relative;
       z-index:1;
+      background:#fff;
     }
 
     #map{
@@ -448,14 +561,25 @@
 
     .note, .status{
       padding:14px 16px;
-      background:linear-gradient(135deg, #eef7fc, #e2f0fa);
-      border:1px solid #d1e4f1;
       border-radius:16px;
       line-height:1.8;
-      color:var(--blue);
       font-size:14px;
       position:relative;
       z-index:1;
+    }
+
+    .section-light .note,
+    .section-light .status{
+      background:linear-gradient(135deg, #eef7fc, #e2f0fa);
+      border:1px solid #d1e4f1;
+      color:var(--blue);
+    }
+
+    .section-dark .note,
+    .section-dark .status{
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.12);
+      color:#fff;
     }
 
     .note{ margin-top:16px; }
@@ -474,9 +598,14 @@
       height:14px;
       margin-top:-7px;
       border-radius:50%;
+      border:2px solid rgba(255,255,255,.35);
+      border-top-color:#ffffff;
+      animation:spin 1s linear infinite;
+    }
+
+    .section-light .status.loading::before{
       border:2px solid #9fc2df;
       border-top-color:#21537e;
-      animation:spin 1s linear infinite;
     }
 
     @keyframes spin{
@@ -485,7 +614,6 @@
 
     .kpi small{
       display:block;
-      color:var(--muted);
       text-transform:uppercase;
       letter-spacing:.6px;
       font-size:12px;
@@ -493,19 +621,41 @@
       margin-bottom:8px;
     }
 
+    .section-light .kpi small{
+      color:var(--muted);
+    }
+
+    .section-dark .kpi small{
+      color:rgba(255,255,255,.75);
+    }
+
     .kpi strong{
       display:block;
       font-size:26px;
-      color:var(--navy);
       margin-bottom:8px;
       line-height:1.2;
       word-break:break-word;
     }
 
+    .section-light .kpi strong{
+      color:var(--navy);
+    }
+
+    .section-dark .kpi strong{
+      color:#fff;
+    }
+
     .kpi p{
-      color:#4f606c;
       font-size:14px;
       line-height:1.75;
+    }
+
+    .section-light .kpi p{
+      color:#4f606c;
+    }
+
+    .section-dark .kpi p{
+      color:var(--dark-muted);
     }
 
     .badge{
@@ -517,9 +667,13 @@
       font-size:13px;
     }
 
-    .stable{ background:rgba(31,143,99,.12); color:var(--success); }
-    .watch{ background:rgba(208,138,46,.14); color:var(--warn); }
-    .alert{ background:rgba(197,91,77,.12); color:var(--danger); }
+    .stable{ background:rgba(31,143,99,.14); color:#a7f0cd; }
+    .watch{ background:rgba(208,138,46,.16); color:#ffd89a; }
+    .alert{ background:rgba(197,91,77,.16); color:#ffc2b8; }
+
+    .section-light .stable{ color:var(--success); background:rgba(31,143,99,.12); }
+    .section-light .watch{ color:var(--warn); background:rgba(208,138,46,.14); }
+    .section-light .alert{ color:var(--danger); background:rgba(197,91,77,.12); }
 
     .toolbar{
       display:flex;
@@ -534,17 +688,25 @@
       border:none;
       padding:10px 16px;
       border-radius:999px;
-      background:linear-gradient(135deg, #dcecf7, #cfe2f1);
-      color:var(--blue);
       font-weight:800;
       cursor:pointer;
       transition:.2s;
     }
 
+    .section-light .toolbar button{
+      background:linear-gradient(135deg, #dcecf7, #cfe2f1);
+      color:var(--blue);
+    }
+
+    .section-dark .toolbar button{
+      background:rgba(255,255,255,.12);
+      color:#fff;
+    }
+
     .toolbar button.active,
     .toolbar button:hover{
-      background:var(--navy-2);
-      color:#fff;
+      background:var(--navy-3) !important;
+      color:#fff !important;
     }
 
     .panel{
@@ -555,19 +717,36 @@
 
     .panel .sub{
       font-size:14px;
-      color:var(--muted);
       margin-bottom:14px;
-      background:linear-gradient(135deg, #f5f9fc, #edf5fb);
       padding:10px 12px;
       border-radius:12px;
+    }
+
+    .section-light .panel .sub{
+      color:var(--muted);
+      background:linear-gradient(135deg, #f5f9fc, #edf5fb);
       border:1px solid #e0eaf2;
     }
 
+    .section-dark .panel .sub{
+      color:#dcecf7;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.10);
+    }
+
     .chart-box{
-      background:linear-gradient(180deg, #f7fafc 0%, #f1f6fa 100%);
-      border:1px solid #dce5ec;
       border-radius:18px;
       padding:10px;
+    }
+
+    .section-light .chart-box{
+      background:linear-gradient(180deg, #f7fafc 0%, #f1f6fa 100%);
+      border:1px solid #dce5ec;
+    }
+
+    .section-dark .chart-box{
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.08);
     }
 
     .chart-shell{
@@ -596,7 +775,14 @@
     .analysis-box ul{
       padding-left:18px;
       line-height:1.95;
+    }
+
+    .section-light .analysis-box ul{
       color:#42515d;
+    }
+
+    .section-dark .analysis-box ul{
+      color:#e5f2fb;
     }
 
     .analysis-box li{
@@ -615,8 +801,15 @@
 
     .day-group h4{
       margin-bottom:10px;
-      color:var(--blue);
       font-size:18px;
+    }
+
+    .section-light .day-group h4{
+      color:var(--blue);
+    }
+
+    .section-dark .day-group h4{
+      color:#fff;
     }
 
     .download-list{
@@ -627,14 +820,23 @@
 
     .download-list a{
       display:block;
-      background:linear-gradient(135deg, #eef7fc, #e2eff8);
-      color:var(--navy);
       padding:12px 14px;
       border-radius:14px;
       font-weight:800;
-      border:1px solid #d1e3ef;
       transition:.2s;
       word-break:break-word;
+    }
+
+    .section-light .download-list a{
+      background:linear-gradient(135deg, #eef7fc, #e2eff8);
+      color:var(--navy);
+      border:1px solid #d1e3ef;
+    }
+
+    .section-dark .download-list a{
+      background:rgba(255,255,255,.10);
+      color:#fff;
+      border:1px solid rgba(255,255,255,.10);
     }
 
     .download-list a::before{
@@ -643,8 +845,8 @@
     }
 
     .download-list a:hover{
-      background:var(--navy-2);
-      color:#fff;
+      background:var(--navy-3) !important;
+      color:#fff !important;
       transform:translateY(-2px);
     }
 
@@ -659,16 +861,23 @@
       overflow-x:auto;
       overflow-y:hidden;
       border-radius:16px;
+      -webkit-overflow-scrolling:touch;
+    }
+
+    .section-light .table-scroll{
       border:1px solid #dde7ef;
       background:#fff;
-      -webkit-overflow-scrolling:touch;
+    }
+
+    .section-dark .table-scroll{
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.04);
     }
 
     table{
       width:100%;
       min-width:860px;
       border-collapse:collapse;
-      background:#fff;
     }
 
     table.wide{
@@ -685,17 +894,32 @@
       text-align:left;
       font-size:13px;
       white-space:nowrap;
+    }
+
+    .section-light th, .section-light td{
       border-bottom:1px solid #edf2f6;
     }
 
-    tbody tr:nth-child(even){
+    .section-dark th, .section-dark td{
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+
+    .section-light tbody tr:nth-child(even){
       background:#f8fbfd;
+    }
+
+    .section-dark tbody tr:nth-child(even){
+      background:rgba(255,255,255,.04);
+    }
+
+    .section-dark tbody tr{
+      color:#eef8ff;
     }
 
     footer{
       margin-top:10px;
       border-top:1px solid rgba(18,50,76,.08);
-      background:linear-gradient(180deg, rgba(255,255,255,.7) 0%, rgba(236,245,251,.7) 100%);
+      background:linear-gradient(180deg, #f5fbff 0%, #e8f2f8 100%);
       text-align:center;
       padding:24px 20px 40px;
       color:#5b6b78;
@@ -716,7 +940,7 @@
       height:52px;
       border:none;
       border-radius:50%;
-      background:linear-gradient(135deg, #1d4f73, #2e6f95);
+      background:linear-gradient(135deg, #173a5c, #2b6c97);
       color:#fff;
       font-size:20px;
       font-weight:900;
@@ -930,7 +1154,7 @@
     </div>
   </nav>
 
-  <section id="beranda">
+  <section id="beranda" class="section-dark">
     <div class="wrap">
       <div class="hero">
         <div class="hero-grid">
@@ -976,11 +1200,11 @@
     </div>
   </section>
 
-  <section id="deformasi">
+  <section id="deformasi" class="section-light">
     <div class="wrap">
       <div class="section-card">
         <div class="section-header">
-          <span class="section-label">Informasi Struktur</span>
+          <span class="eyebrow">Informasi Struktur</span>
           <h2>Deskripsi Deformasi</h2>
           <p>
             Deformasi jembatan adalah perubahan posisi atau dimensi struktur akibat beban kendaraan,
@@ -1015,11 +1239,11 @@
     </div>
   </section>
 
-  <section id="sejarah">
+  <section id="sejarah" class="section-dark">
     <div class="wrap">
       <div class="section-card">
         <div class="section-header">
-          <span class="section-label">Latar Belakang</span>
+          <span class="eyebrow">Latar Belakang</span>
           <h2>Sejarah Jembatan Suramadu</h2>
           <p>
             Jembatan Suramadu menghubungkan Surabaya dan Madura serta menjadi infrastruktur penting
@@ -1057,11 +1281,11 @@
     </div>
   </section>
 
-  <section id="peta">
+  <section id="peta" class="section-light">
     <div class="wrap">
       <div class="section-card">
         <div class="section-header">
-          <span class="section-label">Peta Pengamatan</span>
+          <span class="eyebrow">Peta Pengamatan</span>
           <h2>Peta Titik Benchmark & Akses File CNB</h2>
           <p>
             Bagian ini menampilkan lokasi titik benchmark pengamatan pada Jembatan Suramadu
@@ -1079,9 +1303,7 @@
 
         <div class="download-block">
           <h3>Unduh File Pengukuran CNB</h3>
-          <p>
-            File CNB berikut dapat diunduh langsung oleh pengguna website melalui GitHub Releases.
-          </p>
+          <p>File CNB berikut dapat diunduh langsung oleh pengguna website melalui GitHub Releases.</p>
 
           <div class="day-group">
             <h4>Pengukuran Day 1</h4>
@@ -1127,15 +1349,13 @@
     </div>
   </section>
 
-  <section id="ringkasan-hasil">
+  <section id="ringkasan-hasil" class="section-dark">
     <div class="wrap">
       <div class="section-card">
         <div class="section-header">
-          <span class="section-label">Ringkasan Hasil</span>
+          <span class="eyebrow">Ringkasan Hasil</span>
           <h2>Hasil Utama Pengamatan</h2>
-          <p>
-            Bagian ini menampilkan ringkasan cepat dari hasil analisis deformasi benchmark dan analisa traffic.
-          </p>
+          <p>Bagian ini menampilkan ringkasan cepat dari hasil analisis deformasi benchmark dan analisa traffic.</p>
         </div>
 
         <div class="kpi-grid">
@@ -1168,11 +1388,11 @@
     </div>
   </section>
 
-  <section id="analisis-bm">
+  <section id="analisis-bm" class="section-light">
     <div class="wrap">
       <div class="section-card">
         <div class="section-header">
-          <span class="section-label">Analisis Benchmark</span>
+          <span class="eyebrow">Analisis Benchmark</span>
           <h2>Analisis Per BM</h2>
           <p>
             Hasil berikut dibaca dari file <strong>Hasil_Analisa_Perhitungan.xlsx</strong>. Pilih BM
@@ -1189,7 +1409,6 @@
         </div>
 
         <div id="bmStatus" class="status loading">Memuat data analisa BM...</div>
-
         <div id="bmKpis" class="kpi-grid"></div>
 
         <div class="panel">
@@ -1260,11 +1479,11 @@
     </div>
   </section>
 
-  <section id="traffic">
+  <section id="traffic" class="section-dark">
     <div class="wrap">
       <div class="section-card">
         <div class="section-header">
-          <span class="section-label">Analisa Traffic</span>
+          <span class="eyebrow">Analisa Traffic</span>
           <h2>Analisa Traffic dan Hubungannya dengan Hasil Pengukuran</h2>
           <p>
             Data pada bagian ini dibaca dari file <strong>Hasil_Analisa_Traffic.xlsx</strong>.
@@ -1274,7 +1493,6 @@
         </div>
 
         <div id="trafficStatus" class="status loading">Memuat data traffic...</div>
-
         <div id="trafficKpis" class="kpi-grid"></div>
 
         <div class="panel">
@@ -1384,15 +1602,13 @@
     </div>
   </section>
 
-  <section id="kesimpulan">
+  <section id="kesimpulan" class="section-light">
     <div class="wrap">
       <div class="section-card">
         <div class="section-header">
-          <span class="section-label">Kesimpulan</span>
+          <span class="eyebrow">Kesimpulan</span>
           <h2>Kesimpulan Akhir</h2>
-          <p>
-            Ringkasan akhir dari hasil analisis deformasi benchmark dan hubungan traffic terhadap kualitas pengamatan GNSS.
-          </p>
+          <p>Ringkasan akhir dari hasil analisis deformasi benchmark dan hubungan traffic terhadap kualitas pengamatan GNSS.</p>
         </div>
 
         <div class="panel analysis-box">
@@ -1464,9 +1680,9 @@
         el.style.borderColor = "#f3c7c7";
         el.style.color = "#b42318";
       } else {
-        el.style.background = "linear-gradient(135deg, #eef7fc, #e2f0fa)";
-        el.style.borderColor = "#d1e4f1";
-        el.style.color = "#21537e";
+        el.style.background = "";
+        el.style.borderColor = "";
+        el.style.color = "";
       }
     }
 
@@ -1543,9 +1759,8 @@
     function parseDateTime(dateVal, timeVal) {
       let dateObj = null;
 
-      if (dateVal instanceof Date) {
-        dateObj = dateVal;
-      } else if (typeof dateVal === "number") {
+      if (dateVal instanceof Date) dateObj = dateVal;
+      else if (typeof dateVal === "number") {
         const p = XLSX.SSF.parse_date_code(dateVal);
         if (p) dateObj = new Date(p.y, p.m - 1, p.d);
       } else if (typeof dateVal === "string") {
@@ -1556,7 +1771,6 @@
       if (!dateObj) return null;
 
       let h = 0, m = 0, s = 0;
-
       if (timeVal instanceof Date) {
         h = timeVal.getHours();
         m = timeVal.getMinutes();
@@ -1616,7 +1830,6 @@
           const day = Number(dayMatch[1]);
           const ws = wb.Sheets[sheetName];
           const rows = XLSX.utils.sheet_to_json(ws, { header: 1, raw: true });
-
           const getCell = a => ws[a] ? ws[a].v : null;
 
           const item = {
@@ -1935,7 +2148,7 @@
           responsive: true,
           maintainAspectRatio: false,
           animation: false,
-          plugins: { legend: { position: "bottom" } },
+          plugins: { legend: { position: "bottom", labels: { color: getComputedStyle(document.body).getPropertyValue('--ink') } } },
           scales: {
             y: { beginAtZero: true, title: { display: true, text: "Meter" } },
             x: { grid: { display: false } }
@@ -2354,16 +2567,12 @@
           const top = window.scrollY;
           const offset = section.offsetTop - 130;
           const height = section.offsetHeight;
-          if (top >= offset && top < offset + height) {
-            current = section.getAttribute("id");
-          }
+          if (top >= offset && top < offset + height) current = section.getAttribute("id");
         });
 
         navLinks.forEach(link => {
           link.classList.remove("active-link");
-          if (link.getAttribute("href") === `#${current}`) {
-            link.classList.add("active-link");
-          }
+          if (link.getAttribute("href") === `#${current}`) link.classList.add("active-link");
         });
       }
 
@@ -2373,14 +2582,9 @@
 
     function initTopButton() {
       const btn = document.getElementById("topBtn");
-      if (!btn) return;
-
       window.addEventListener("scroll", () => {
-        if (window.scrollY > 400) {
-          btn.classList.add("show");
-        } else {
-          btn.classList.remove("show");
-        }
+        if (window.scrollY > 400) btn.classList.add("show");
+        else btn.classList.remove("show");
       });
 
       btn.addEventListener("click", () => {
